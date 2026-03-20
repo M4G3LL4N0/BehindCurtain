@@ -1,26 +1,200 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #07111f;
+  --panel: #0d1728;
+  --panel-2: #111f35;
+  --line: rgba(255,255,255,0.08);
+  --text: #e7edf7;
+  --muted: #93a4bf;
+  --accent: #8cc7ff;
+  --accent-2: #d9e9ff;
+  --danger: #ffb4b4;
+  --warning: #ffe5a8;
+  --success: #b7f0c2;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html, body {
+  margin: 0;
+  padding: 0;
+  background:
+    radial-gradient(circle at top, rgba(140,199,255,0.12), transparent 28%),
+    linear-gradient(180deg, #050c17 0%, #091221 50%, #07111f 100%);
+  color: var(--text);
+  min-height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.panel {
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  backdrop-filter: blur(8px);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.03);
+  color: var(--accent-2);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  transition: 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, #b7dbff 0%, #7dbfff 100%);
+  color: #05111f;
+  font-weight: 700;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(140,199,255,0.18);
+}
+
+.btn-secondary {
+  background: rgba(255,255,255,0.03);
+  color: var(--text);
+}
+
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+.grid-hero {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 24px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 980px) {
+  .grid-hero,
+  .grid-3,
+  .grid-2 {
+    grid-template-columns: 1fr;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.timeline {
+  position: relative;
+  padding-left: 24px;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  background: rgba(140,199,255,0.22);
+}
+
+.timeline-item {
+  position: relative;
+  padding: 0 0 20px 0;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -21px;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: #9ed0ff;
+  box-shadow: 0 0 0 5px rgba(140,199,255,0.12);
+}
+
+.kicker {
+  color: var(--accent);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.big-title {
+  font-size: clamp(42px, 8vw, 82px);
+  line-height: 0.94;
+  letter-spacing: -0.04em;
+  margin: 12px 0 18px;
+}
+
+.section-title {
+  font-size: clamp(26px, 4vw, 42px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  margin: 0 0 14px;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.03);
+  color: var(--text);
+  border-radius: 16px;
+  padding: 14px 16px;
+  outline: none;
+}
+
+.input::placeholder {
+  color: #7d91af;
 }
