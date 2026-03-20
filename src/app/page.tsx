@@ -1,6 +1,9 @@
 import Image from "next/image";
+import { getRelationships, getSources } from "@/lib/db";
 
-export default function Home() {
+export default async function Home() {
+  const relationships = await getRelationships();
+  const sources = await getSources();
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <main className="flex flex-1 w-full max-w-4xl flex-col items-center justify-between py-40 px-8 bg-white dark:bg-black sm:items-start sm:px-16">
@@ -64,34 +67,26 @@ export default function Home() {
           <div className="w-full mt-12">
             <h2 className="text-2xl font-bold mb-6">Key Relationships</h2>
             <div className="relationship-grid">
-              <div className="relationship-card">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
-                    <span className="text-accent">JD</span>
+              {relationships.map((relationship) => (
+                <div key={relationship.id} className="relationship-card">
+                  <div className="flex items-center gap-4">
+                    <div className={`w-12 h-12 rounded-full ${
+                      relationship.type === 'business' ? 'bg-accent/10' : 'bg-success/10'
+                    } flex items-center justify-center`}>
+                      <span className={relationship.type === 'business' ? 'text-accent' : 'text-success'}>
+                        {relationship.initials}
+                      </span>
+                    </div>
+                    <div>
+                      <h3 className="font-medium">{relationship.name}</h3>
+                      <p className="text-sm text-muted">{relationship.relationship}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-medium">John Doe</h3>
-                    <p className="text-sm text-muted">Business Partner</p>
-                  </div>
-                </div>
-                <div className="text-sm text-muted">
-                  Co-founder at Acme Corp since 2020
-                </div>
-              </div>
-              <div className="relationship-card">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-success/10 flex items-center justify-center">
-                    <span className="text-success">AS</span>
-                  </div>
-                  <div>
-                    <h3 className="font-medium">Alice Smith</h3>
-                    <p className="text-sm text-muted">Political Ally</p>
+                  <div className="text-sm text-muted">
+                    {relationship.description}
                   </div>
                 </div>
-                <div className="text-sm text-muted">
-                  Senator since 2018, frequent collaborator
-                </div>
-              </div>
+              ))}
             </div>
           </div>
 
@@ -99,34 +94,26 @@ export default function Home() {
           <div className="w-full mt-12">
             <h2 className="text-2xl font-bold mb-6">Verified Sources</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="source-card">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center">
-                    <span className="text-accent">N</span>
+              {sources.map((source) => (
+                <div key={source.id} className="source-card">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className={`w-8 h-8 rounded-full ${
+                      source.type === 'article' ? 'bg-accent/10' : 'bg-warning/10'
+                    } flex items-center justify-center`}>
+                      <span className={source.type === 'article' ? 'text-accent' : 'text-warning'}>
+                        {source.initials}
+                      </span>
+                    </div>
+                    <h3 className="font-medium">{source.name}</h3>
                   </div>
-                  <h3 className="font-medium">New York Times</h3>
+                  <p className="text-sm text-muted mb-4">
+                    {source.description}
+                  </p>
+                  <a href="#" className="text-accent text-sm hover:underline">
+                    View Source →
+                  </a>
                 </div>
-                <p className="text-sm text-muted mb-4">
-                  Article published on March 15, 2026 detailing recent business dealings.
-                </p>
-                <a href="#" className="text-accent text-sm hover:underline">
-                  View Source →
-                </a>
-              </div>
-              <div className="source-card">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-8 h-8 rounded-full bg-warning/10 flex items-center justify-center">
-                    <span className="text-warning">F</span>
-                  </div>
-                  <h3 className="font-medium">Forbes</h3>
-                </div>
-                <p className="text-sm text-muted mb-4">
-                  Profile piece from February 2026 covering recent achievements.
-                </p>
-                <a href="#" className="text-accent text-sm hover:underline">
-                  View Source →
-                </a>
-              </div>
+              ))}
             </div>
           </div>
         </div>
