@@ -16,6 +16,50 @@ export default function Home() {
           <h1 className="max-w-2xl text-4xl font-bold leading-[1.15] tracking-tight text-black dark:text-zinc-50 sm:text-5xl">
             Source-linked intelligence for understanding people, power, and events.
           </h1>
+
+          <div className="flex flex-col w-full max-w-2xl gap-3 mt-8">
+            {/* Search Bar */}
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search profiles..."
+                className="w-full px-4 py-3 rounded-full bg-black/[.03] dark:bg-white/[.08] border border-black/[.08] dark:border-white/[.145] text-black dark:text-zinc-50 placeholder-zinc-600 dark:placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-accent"
+              />
+              <svg
+                className="absolute right-3 top-3.5 h-5 w-5 text-zinc-600 dark:text-zinc-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+
+            {/* Filter Controls */}
+            <div className="flex flex-wrap gap-3 mt-2">
+              <select className="flex-1 min-w-[120px] px-3 py-2 rounded-full bg-black/[.03] dark:bg-white/[.08] border border-black/[.08] dark:border-white/[.145] text-black dark:text-zinc-50">
+                <option value="">All Roles</option>
+                <option>Politician</option>
+                <option>Business Leader</option>
+                <option>Activist</option>
+              </select>
+
+              <select className="flex-1 min-w-[120px] px-3 py-2 rounded-full bg-black/[.03] dark:bg-white/[.08] border border-black/[.08] dark:border-white/[.145] text-black dark:text-zinc-50">
+                <option value="">All Regions</option>
+                <option>North America</option>
+                <option>Europe</option>
+                <option>Asia</option>
+              </select>
+
+              <select className="flex-1 min-w-[120px] px-3 py-2 rounded-full bg-black/[.03] dark:bg-white/[.08] border border-black/[.08] dark:border-white/[.145] text-black dark:text-zinc-50">
+                <option value="">All Tags</option>
+                <option>Government</option>
+                <option>Finance</option>
+                <option>Technology</option>
+              </select>
+            </div>
+          </div>
+
           <p className="max-w-2xl text-xl leading-8 text-zinc-600 dark:text-zinc-400 mt-6">
             Looking for a starting point or more instructions? Head over to{" "}
             <a
