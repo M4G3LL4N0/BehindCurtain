@@ -196,7 +196,14 @@ a {
   letter-spacing: -0.02em;
 }
 
-.input {
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: none;
+}
+
+.input, select {
   width: 100%;
   border: 1px solid var(--line);
   background: rgba(255,255,255,0.03);
@@ -204,6 +211,20 @@ a {
   border-radius: 16px;
   padding: 14px 16px;
   outline: none;
+  transition: border-color 0.2s;
+}
+
+.input:focus, select:focus {
+  border-color: var(--accent);
+}
+
+.input::placeholder, select option {
+  color: var(--muted);
+}
+
+.input.disabled, select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .input::placeholder {
