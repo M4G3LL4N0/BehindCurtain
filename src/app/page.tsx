@@ -60,23 +60,75 @@ export default function Home() {
             </div>
           </div>
 
-          <p className="max-w-2xl text-xl leading-8 text-zinc-600 dark:text-zinc-400 mt-6">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+          {/* Relationships Section */}
+          <div className="w-full mt-12">
+            <h2 className="text-2xl font-bold mb-6">Key Relationships</h2>
+            <div className="relationship-grid">
+              <div className="relationship-card">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
+                    <span className="text-accent">JD</span>
+                  </div>
+                  <div>
+                    <h3 className="font-medium">John Doe</h3>
+                    <p className="text-sm text-muted">Business Partner</p>
+                  </div>
+                </div>
+                <div className="text-sm text-muted">
+                  Co-founder at Acme Corp since 2020
+                </div>
+              </div>
+              <div className="relationship-card">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-success/10 flex items-center justify-center">
+                    <span className="text-success">AS</span>
+                  </div>
+                  <div>
+                    <h3 className="font-medium">Alice Smith</h3>
+                    <p className="text-sm text-muted">Political Ally</p>
+                  </div>
+                </div>
+                <div className="text-sm text-muted">
+                  Senator since 2018, frequent collaborator
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Sources Section */}
+          <div className="w-full mt-12">
+            <h2 className="text-2xl font-bold mb-6">Verified Sources</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="source-card">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center">
+                    <span className="text-accent">N</span>
+                  </div>
+                  <h3 className="font-medium">New York Times</h3>
+                </div>
+                <p className="text-sm text-muted mb-4">
+                  Article published on March 15, 2026 detailing recent business dealings.
+                </p>
+                <a href="#" className="text-accent text-sm hover:underline">
+                  View Source →
+                </a>
+              </div>
+              <div className="source-card">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-8 h-8 rounded-full bg-warning/10 flex items-center justify-center">
+                    <span className="text-warning">F</span>
+                  </div>
+                  <h3 className="font-medium">Forbes</h3>
+                </div>
+                <p className="text-sm text-muted mb-4">
+                  Profile piece from February 2026 covering recent achievements.
+                </p>
+                <a href="#" className="text-accent text-sm hover:underline">
+                  View Source →
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="flex flex-col gap-6 text-base font-medium mt-12 sm:flex-row">
           <a
