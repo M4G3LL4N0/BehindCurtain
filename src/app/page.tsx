@@ -6,19 +6,30 @@ export default async function Home() {
   const sources = await getSources();
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-4xl flex-col items-center justify-between py-40 px-8 bg-white dark:bg-black sm:items-start sm:px-16">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-2xl text-4xl font-bold leading-[1.15] tracking-tight text-black dark:text-zinc-50 sm:text-5xl">
-            Source-linked intelligence for understanding people, power, and events.
-          </h1>
+      <main className="flex flex-1 w-full max-w-6xl flex-col items-center justify-between py-48 px-6 bg-white dark:bg-black sm:items-start sm:px-12">
+        <div className="w-full max-w-6xl">
+          <div className="flex flex-col items-start gap-8">
+            <div className="flex items-center gap-4">
+              <Image
+                className="dark:invert"
+                src="/next.svg"
+                alt="Next.js logo"
+                width={120}
+                height={24}
+                priority
+              />
+              <span className="text-sm font-medium text-zinc-500 dark:text-zinc-400">BehindCurtain Intelligence</span>
+            </div>
+            <div className="flex flex-col gap-8">
+              <h1 className="max-w-3xl text-5xl font-bold leading-[1.1] tracking-tight text-black dark:text-zinc-50 sm:text-6xl">
+                Source-linked intelligence<br />for understanding power,<br />people, and events.
+              </h1>
+              <p className="max-w-2xl text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                BehindCurtain provides trusted intelligence on the relationships and networks shaping global affairs. 
+                Our platform connects verified sources to deliver actionable insights.
+              </p>
+            </div>
+          </div>
 
           <div className="flex flex-col w-full max-w-2xl gap-3 mt-8">
             {/* Search Bar */}
@@ -64,13 +75,18 @@ export default async function Home() {
           </div>
 
           {/* Relationships Section */}
-          <div className="w-full mt-12">
-            <h2 className="text-2xl font-bold mb-6">Key Relationships</h2>
+          <div className="w-full mt-16">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-3xl font-bold">Key Relationships</h2>
+              <a href="#" className="text-sm font-medium text-accent hover:underline">
+                Explore All →
+              </a>
+            </div>
             <div className="relationship-grid">
               {relationships.map((relationship) => (
-                <div key={relationship.id} className="relationship-card">
+                <div key={relationship.id} className="relationship-card hover:shadow-lg transition-all">
                   <div className="flex items-center gap-4">
-                    <div className={`w-12 h-12 rounded-full ${
+                    <div className={`w-14 h-14 rounded-full ${
                       relationship.type === 'business' ? 'bg-accent/10' : 'bg-success/10'
                     } flex items-center justify-center`}>
                       <span className={relationship.type === 'business' ? 'text-accent' : 'text-success'}>
@@ -78,11 +94,11 @@ export default async function Home() {
                       </span>
                     </div>
                     <div>
-                      <h3 className="font-medium">{relationship.name}</h3>
+                      <h3 className="font-medium text-lg">{relationship.name}</h3>
                       <p className="text-sm text-muted">{relationship.relationship}</p>
                     </div>
                   </div>
-                  <div className="text-sm text-muted">
+                  <div className="text-sm text-muted mt-3 leading-relaxed">
                     {relationship.description}
                   </div>
                 </div>
@@ -91,26 +107,34 @@ export default async function Home() {
           </div>
 
           {/* Sources Section */}
-          <div className="w-full mt-12">
-            <h2 className="text-2xl font-bold mb-6">Verified Sources</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="w-full mt-16">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-3xl font-bold">Verified Sources</h2>
+              <a href="#" className="text-sm font-medium text-accent hover:underline">
+                View All →
+              </a>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {sources.map((source) => (
-                <div key={source.id} className="source-card">
+                <div key={source.id} className="source-card hover:shadow-lg transition-all">
                   <div className="flex items-center gap-4 mb-4">
-                    <div className={`w-8 h-8 rounded-full ${
+                    <div className={`w-10 h-10 rounded-full ${
                       source.type === 'article' ? 'bg-accent/10' : 'bg-warning/10'
                     } flex items-center justify-center`}>
                       <span className={source.type === 'article' ? 'text-accent' : 'text-warning'}>
                         {source.initials}
                       </span>
                     </div>
-                    <h3 className="font-medium">{source.name}</h3>
+                    <div>
+                      <h3 className="font-medium text-lg">{source.name}</h3>
+                      <p className="text-sm text-muted">{source.type}</p>
+                    </div>
                   </div>
-                  <p className="text-sm text-muted mb-4">
+                  <p className="text-sm text-muted mb-4 leading-relaxed">
                     {source.description}
                   </p>
-                  <a href="#" className="text-accent text-sm hover:underline">
-                    View Source →
+                  <a href="#" className="text-accent text-sm font-medium hover:underline flex items-center gap-1">
+                    View Source <span className="text-xs">→</span>
                   </a>
                 </div>
               ))}
