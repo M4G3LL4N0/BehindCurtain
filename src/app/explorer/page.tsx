@@ -1,0 +1,62 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import Header from "@/components/header";
+import { getAllProfiles } from "@/lib/data";
+import ProfileCard from "@/components/profile-card";
+
+export default function ExplorerPage() {
+  const profiles = getAllProfiles();
+  const [query, setQuery] = useState("");
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return profiles;
+    return profiles.filter((profile) =>
+      [
+        profile.name,
+        profile.role,
+        profile.region,
+        profile.summary,
+        ...profile.tags,
+      ]
+        .join(" ")
+        .toLowerCase()
+        .includes(q)
+    );
+  }, [profiles, query]);
+
+  return (
+    <main>
+      <Header />
+
+      <section className="container" style={{ paddingTop: 20, paddingBottom: 30 }}>
+        <div className="panel" style={{ padding: 24 }}>
+          <div className="kicker">Explorer</div>
+          <h1 className="section-title">Search profiles and research records</h1>
+          <p className="muted" style={{ lineHeight: 1.7, maxWidth: 820 }}>
+            This MVP explorer is the first layer of BehindCurtain: premium profile pages,
+            source-backed timelines, and relationship context.
+          </p>
+
+          <div style={{ marginTop: 18 }}>
+            <input
+              className="input"
+              placeholder="Search by name, tag, role, region, or category"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="container" style={{ paddingBottom: 80 }}>
+        <div className="grid-3">
+          {filtered.map((profile) => (
+            <ProfileCard key={profile.slug} profile={profile} />
+          ))}
+        </div>
+      </section>
+    </main>
+  );
+}
