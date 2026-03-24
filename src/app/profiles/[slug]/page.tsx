@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Header from "@/components/header";
 import { getProfileBySlug } from "@/lib/data";
+import { getProfileBySlug as getProfileFromDb } from "@/lib/db";
 import TimelineList from "@/components/timeline-list";
 
 export default async function ProfilePage({
@@ -9,7 +10,11 @@ export default async function ProfilePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const profile = getProfileBySlug(slug);
+  // Try DB first, fall back to mock data
+  let profile = await getProfileFromDb(slug);
+  if (!profile) {
+    profile = await getProfileBySlug(slug);
+  }
 
   if (!profile) notFound();
 

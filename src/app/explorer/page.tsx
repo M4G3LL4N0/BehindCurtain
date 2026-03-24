@@ -3,10 +3,15 @@
 import { useMemo, useState } from "react";
 import Header from "@/components/header";
 import { getAllProfiles } from "@/lib/data";
+import { getProfiles } from "@/lib/db";
 import ProfileCard from "@/components/profile-card";
 
 export default function ExplorerPage() {
-  const profiles = getAllProfiles();
+  const mockProfiles = await getAllProfiles();
+  // In future we could merge db profiles with mock profiles:
+  // const dbProfiles = await getProfiles();
+  // const profiles = [...dbProfiles, ...mockProfiles];
+  const profiles = mockProfiles;
   const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {

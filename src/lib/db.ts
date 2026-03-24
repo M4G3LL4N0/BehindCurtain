@@ -1,4 +1,5 @@
-import { createClient } from '@supabase/supabase-js';
+import { getSupabaseClient } from './supabase';
+import { Profile } from './types';
 
 // Mock data fallback
 const mockRelationships = [
@@ -37,14 +38,8 @@ const mockSources = [
   }
 ];
 
-// Initialize Supabase client if env vars are present
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-const supabase = supabaseUrl && supabaseKey ? 
-  createClient(supabaseUrl, supabaseKey) : null;
-
 export async function getRelationships() {
+  const supabase = getSupabaseClient();
   if (supabase) {
     const { data, error } = await supabase
       .from('relationships')
@@ -57,6 +52,7 @@ export async function getRelationships() {
 }
 
 export async function getSources() {
+  const supabase = getSupabaseClient();
   if (supabase) {
     const { data, error } = await supabase
       .from('sources')
@@ -66,4 +62,32 @@ export async function getSources() {
     if (!error) return data;
   }
   return mockSources;
+}
+
+export async function getProfiles(): Promise<Profile[]> {
+  const supabase = getSupabaseClient();
+  if (supabase) {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if (!error) return data;
+  }
+  return []; // Actual profiles will come from data.ts
+}
+
+export async function getProfileBySlug(slug: string): Promise<Profile | null> {
+  const supabase = getSupabaseClient();
+  if (supabase) {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('slug', slug)
+      .single();
+    
+    if (!error) return data;
+    return null;
+  }
+  return null; // Fallback to data.ts will be handled by pages
 }

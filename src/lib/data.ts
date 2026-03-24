@@ -124,10 +124,10 @@ export const profiles: Profile[] = [
   },
 ];
 
-export function getAllProfiles() {
+export async function getAllProfiles() {
   return profiles;
 }
 
-export function getProfileBySlug(slug: string) {
-  return profiles.find((profile) => profile.slug === slug);
+export async function getProfileBySlug(slug: string) {
+  return profiles.find((profile) => profile.slug === slug) || null;
 }
