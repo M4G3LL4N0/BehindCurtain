@@ -37,87 +37,13 @@ export async function getAllProfiles(): Promise<Profile[]> {
     .select("*")
     .order("name", { ascending: true });
 
-  if (error || !data) {
+  const rows = (data ?? []) as ProfileRow[];
+
+  if (error || rows.length === 0) {
     return mockProfiles;
   }
 
-  if (result.error || data.length === 0) {
-    return mockProfiles;
-  }
-
-  return data.map(mapProfileRowToBaseProfile);
-}
-
-export async function createProfile(profile: ProfileInsert): Promise<ProfileRow | null> {
-  const supabase = getSupabaseClient();
-  if (!supabase) return null;
-
-  const { data, error } = await supabase
-    .from("profiles")
-    .insert(profile)
-    .select()
-    .single();
-
-  if (error) {
-    console.error("Error creating profile:", error);
-    return null;
-  }
-
-  return data;
-}
-
-export async function createSource(source: SourceInsert): Promise<SourceRow | null> {
-  const supabase = getSupabaseClient();
-  if (!supabase) return null;
-
-  const { data, error } = await supabase
-    .from("sources")
-    .insert(source)
-    .select()
-    .single();
-
-  if (error) {
-    console.error("Error creating source:", error);
-    return null;
-  }
-
-  return data;
-}
-
-export async function createTimelineEvent(event: TimelineEventInsert): Promise<TimelineEventRow | null> {
-  const supabase = getSupabaseClient();
-  if (!supabase) return null;
-
-  const { data, error } = await supabase
-    .from("timeline_events")
-    .insert(event)
-    .select()
-    .single();
-
-  if (error) {
-    console.error("Error creating timeline event:", error);
-    return null;
-  }
-
-  return data;
-}
-
-export async function createRelationship(relationship: RelationshipInsert): Promise<RelationshipRow | null> {
-  const supabase = getSupabaseClient();
-  if (!supabase) return null;
-
-  const { data, error } = await supabase
-    .from("relationships")
-    .insert(relationship)
-    .select()
-    .single();
-
-  if (error) {
-    console.error("Error creating relationship:", error);
-    return null;
-  }
-
-  return data;
+  return rows.map(mapProfileRowToBaseProfile);
 }
 
 export async function getProfileBySlug(slug: string): Promise<Profile | undefined> {
@@ -127,43 +53,61 @@ export async function getProfileBySlug(slug: string): Promise<Profile | undefine
     return mockProfiles.find((profile) => profile.slug === slug);
   }
 
-  const { data: profileRow, error: profileError } = await supabase
+  const { data, error } = await supabase
     .from("profiles")
     .select("*")
     .eq("slug", slug)
     .maybeSingle();
 
-  if (profileError || !profileRow) {
+  const profileRow = (data ?? null) as ProfileRow | null;
+
+  if (error || !profileRow) {
     return mockProfiles.find((profile) => profile.slug === slug);
   }
 
   const profile = mapProfileRowToBaseProfile(profileRow);
 
   const [
-    { data: tags },
-    { data: sources },
-    { data: timelineEvents },
-    { data: relationships },
-    { data: timelineEventSources },
+    tagsResult,
+    sourcesResult,
+    timelineResult,
+    relationshipsResult,
+    timelineEventSourcesResult,
   ] = await Promise.all([
-    supabase.from("profile_tags").select("*").eq("profile_id", profileRow.id).order("tag"),
+    supabase
+      .from("profile_tags")
+      .select("*")
+      .eq("profile_id", profileRow.id)
+      .order("tag", { ascending: true }),
+
     supabase
       .from("sources")
       .select("*")
       .eq("profile_id", profileRow.id)
       .order("source_date", { ascending: false }),
+
     supabase
       .from("timeline_events")
       .select("*")
       .eq("profile_id", profileRow.id)
       .order("event_date", { ascending: false }),
+
     supabase
       .from("relationships")
       .select("*")
       .eq("profile_id", profileRow.id)
       .order("target_name", { ascending: true }),
-    supabase.from("timeline_event_sources").select("*"),
+
+    supabase
+      .from("timeline_event_sources")
+      .select("*"),
   ]);
+
+  const tags = (tagsResult.data ?? []) as ProfileTagRow[];
+  const sources = (sourcesResult.data ?? []) as SourceRow[];
+  const timelineEvents = (timelineResult.data ?? []) as TimelineEventRow[];
+  const relationships = (relationshipsResult.data ?? []) as RelationshipRow[];
+  const timelineEventSources = (timelineEventSourcesResult.data ?? []) as TimelineEventSourceRow[];
 
   profile.tags = tags.map((tag) => tag.tag);
 
@@ -198,3 +142,147 @@ export async function getProfileBySlug(slug: string): Promise<Profile | undefine
 
   return profile;
 }
+
+import type {
+  ProfileInsert,
+  SourceInsert,
+  TimelineEventInsert,
+  RelationshipInsert,
+} from "@/lib/database.types";
+
+/**
+ * CREATE PROFILE
+ */
+export async function createProfile(input: ProfileInsert) {
+  const supabase = getSupabaseClient();
+  if (!supabase) {
+    return { data: null, error: new Error("Missing Supabase client") };
+  }
+
+  return await supabase
+    .from("profiles")
+    .insert(input)
+    .select()
+    .single();
+}
+
+/**
+ * CREATE SOURCE
+ */
+export async function createSource(input: SourceInsert) {
+  const supabase = getSupabaseClient();
+  if (!supabase) {
+    return { data: null, error: new Error("Missing Supabase client") };
+  }
+
+  return await supabase
+    .from("sources")
+    .insert(input)
+    .select()
+    .single();
+}
+
+/**
+ * CREATE TIMELINE EVENT
+ */
+export async function createTimelineEvent(input: TimelineEventInsert) {
+  const supabase = getSupabaseClient();
+  if (!supabase) {
+    return { data: null, error: new Error("Missing Supabase client") };
+  }
+
+  return await supabase
+    .from("timeline_events")
+    .insert(input)
+    .select()
+    .single();
+}
+
+/**
+ * CREATE RELATIONSHIP
+ */
+export async function createRelationship(input: RelationshipInsert) {
+  const supabase = getSupabaseClient();
+  if (!supabase) {
+    return { data: null, error: new Error("Missing Supabase client") };
+  }
+
+  return await supabase
+    .from("relationships")
+    .insert(input)
+    .select()
+    .single();
+}
+
+
+import type {
+  ProfileInsert,
+  SourceInsert,
+  TimelineEventInsert,
+  RelationshipInsert,
+} from "@/lib/database.types";
+
+/**
+ * CREATE PROFILE
+ */
+export async function createProfile(input: ProfileInsert) {
+  const supabase = getSupabaseClient();
+  if (!supabase) {
+    return { data: null, error: new Error("Missing Supabase client") };
+  }
+
+  return await supabase
+    .from("profiles")
+    .insert(input)
+    .select()
+    .single();
+}
+
+/**
+ * CREATE SOURCE
+ */
+export async function createSource(input: SourceInsert) {
+  const supabase = getSupabaseClient();
+  if (!supabase) {
+    return { data: null, error: new Error("Missing Supabase client") };
+  }
+
+  return await supabase
+    .from("sources")
+    .insert(input)
+    .select()
+    .single();
+}
+
+/**
+ * CREATE TIMELINE EVENT
+ */
+export async function createTimelineEvent(input: TimelineEventInsert) {
+  const supabase = getSupabaseClient();
+  if (!supabase) {
+    return { data: null, error: new Error("Missing Supabase client") };
+  }
+
+  return await supabase
+    .from("timeline_events")
+    .insert(input)
+    .select()
+    .single();
+}
+
+/**
+ * CREATE RELATIONSHIP
+ */
+export async function createRelationship(input: RelationshipInsert) {
+  const supabase = getSupabaseClient();
+  if (!supabase) {
+    return { data: null, error: new Error("Missing Supabase client") };
+  }
+
+  return await supabase
+    .from("relationships")
+    .insert(input)
+    .select()
+    .single();
+}
+

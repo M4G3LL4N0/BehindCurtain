@@ -30,6 +30,7 @@ export default function Header() {
           >
             BC
           </div>
+
           <div>
             <div style={{ fontWeight: 800, letterSpacing: "-0.03em" }}>BehindCurtain</div>
             <div className="muted" style={{ fontSize: 12 }}>
@@ -43,10 +44,12 @@ export default function Header() {
             <Search size={16} />
             Explorer
           </Link>
+
           <a className="btn btn-secondary" href="#trust">
             <Shield size={16} />
             Trust
           </a>
+
           <a className="btn btn-primary" href="#launch">
             <Sparkles size={16} />
             Launch MVP
