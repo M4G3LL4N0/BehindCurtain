@@ -27,24 +27,51 @@ export default function ExplorerPage() {
     };
   }, []);
 
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return profiles;
+  const [debouncedQuery, setDebouncedQuery] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
 
-    return profiles.filter((profile) =>
-      [
+  // Debounce search input
+  useEffect(() => {
+    setIsSearching(true);
+    const handler = setTimeout(() => {
+      setDebouncedQuery(query.trim().toLowerCase());
+      setIsSearching(false);
+    }, 300);
+
+    return () => clearTimeout(handler);
+  }, [query]);
+
+  const filtered = useMemo(() => {
+    if (!debouncedQuery) return profiles;
+
+    return profiles.filter((profile) => {
+      // Basic fields to search
+      const basicFields = [
         profile.name,
         profile.role,
         profile.region,
         profile.summary,
         profile.shortBio,
         ...profile.tags,
-      ]
-        .join(" ")
-        .toLowerCase()
-        .includes(q)
-    );
-  }, [profiles, query]);
+      ].join(" ").toLowerCase();
+
+      // Search timeline events
+      const timelineMatches = profile.timeline.some(event => 
+        event.title.toLowerCase().includes(debouncedQuery)
+      );
+
+      // Search sources
+      const sourceMatches = profile.sources.some(source =>
+        source.title.toLowerCase().includes(debouncedQuery)
+      );
+
+      return (
+        basicFields.includes(debouncedQuery) ||
+        timelineMatches ||
+        sourceMatches
+      );
+    });
+  }, [profiles, debouncedQuery]);
 
   return (
     <main>
@@ -59,23 +86,55 @@ export default function ExplorerPage() {
             source-backed timelines, and relationship context.
           </p>
 
-          <div style={{ marginTop: 18 }}>
+          <div style={{ marginTop: 18, position: 'relative' }}>
             <input
               className="input"
-              placeholder="Search by name, tag, role, region, or category"
+              placeholder="Search profiles, events, sources..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
+            {isSearching && (
+              <div style={{
+                position: 'absolute',
+                right: 12,
+                top: 12,
+                fontSize: 14,
+                color: '#666'
+              }}>
+                Searching...
+              </div>
+            )}
           </div>
+
+          {debouncedQuery && (
+            <div style={{ marginTop: 12, fontSize: 14, color: '#666' }}>
+              Found {filtered.length} {filtered.length === 1 ? 'result' : 'results'}
+            </div>
+          )}
         </div>
       </section>
 
       <section className="container" style={{ paddingBottom: 80 }}>
-        <div className="grid-3">
-          {filtered.map((profile) => (
-            <ProfileCard key={profile.slug} profile={profile} />
-          ))}
-        </div>
+        {filtered.length > 0 ? (
+          <div className="grid-3">
+            {filtered.map((profile) => (
+              <ProfileCard key={profile.slug} profile={profile} />
+            ))}
+          </div>
+        ) : debouncedQuery ? (
+          <div className="panel" style={{ padding: 40, textAlign: 'center' }}>
+            <h3>No results found</h3>
+            <p style={{ marginTop: 8 }}>
+              Try different search terms or check your spelling
+            </p>
+          </div>
+        ) : (
+          <div className="grid-3">
+            {profiles.map((profile) => (
+              <ProfileCard key={profile.slug} profile={profile} />
+            ))}
+          </div>
+        )}
       </section>
     </main>
   );
