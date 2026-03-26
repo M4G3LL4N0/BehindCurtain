@@ -4,9 +4,9 @@ import type { Database } from "@/lib/database.types";
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-let cachedClient: SupabaseClient<Database, "behindcurtain"> | null = null;
+let cachedClient: SupabaseClient<Database> | null = null;
 
-export function getSupabaseClient(): SupabaseClient<Database, "behindcurtain"> | null {
+export function getSupabaseClient(): SupabaseClient<Database> | null {
   if (!supabaseUrl || !supabaseAnonKey) {
     return null;
   }

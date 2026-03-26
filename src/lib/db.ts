@@ -32,12 +32,14 @@ export async function getAllProfiles(): Promise<Profile[]> {
     return mockProfiles;
   }
 
-  const result = await supabase
+  const { data, error } = await supabase
     .from("profiles")
     .select("*")
     .order("name", { ascending: true });
 
-  const data = (result.data ?? []) as unknown as ProfileRow[];
+  if (error || !data) {
+    return mockProfiles;
+  }
 
   if (result.error || data.length === 0) {
     return mockProfiles;
@@ -53,26 +55,24 @@ export async function getProfileBySlug(slug: string): Promise<Profile | undefine
     return mockProfiles.find((profile) => profile.slug === slug);
   }
 
-  const profileResult = await supabase
+  const { data: profileRow, error: profileError } = await supabase
     .from("profiles")
     .select("*")
     .eq("slug", slug)
     .maybeSingle();
 
-  const profileRow = (profileResult.data ?? null) as unknown as ProfileRow | null;
-
-  if (profileResult.error || !profileRow) {
+  if (profileError || !profileRow) {
     return mockProfiles.find((profile) => profile.slug === slug);
   }
 
   const profile = mapProfileRowToBaseProfile(profileRow);
 
   const [
-    tagsResult,
-    sourcesResult,
-    timelineResult,
-    relationshipsResult,
-    timelineEventSourcesResult,
+    { data: tags },
+    { data: sources },
+    { data: timelineEvents },
+    { data: relationships },
+    { data: timelineEventSources },
   ] = await Promise.all([
     supabase.from("profile_tags").select("*").eq("profile_id", profileRow.id).order("tag"),
     supabase
@@ -92,13 +92,6 @@ export async function getProfileBySlug(slug: string): Promise<Profile | undefine
       .order("target_name", { ascending: true }),
     supabase.from("timeline_event_sources").select("*"),
   ]);
-
-  const tags = (tagsResult.data ?? []) as unknown as ProfileTagRow[];
-  const sources = (sourcesResult.data ?? []) as unknown as SourceRow[];
-  const timelineEvents = (timelineResult.data ?? []) as unknown as TimelineEventRow[];
-  const relationships = (relationshipsResult.data ?? []) as unknown as RelationshipRow[];
-  const timelineEventSources =
-    (timelineEventSourcesResult.data ?? []) as unknown as TimelineEventSourceRow[];
 
   profile.tags = tags.map((tag) => tag.tag);
 
