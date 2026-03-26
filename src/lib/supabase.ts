@@ -1,20 +1,25 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "@/lib/database.types";
 
-export type SupabaseClient = ReturnType<typeof createClient>;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-let supabaseClient: SupabaseClient | null = null;
+let cachedClient: SupabaseClient<Database, "behindcurtain"> | null = null;
 
-export function getSupabaseClient(): SupabaseClient | null {
-  if (supabaseClient) return supabaseClient;
-
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl || !supabaseKey) {
-    console.warn('Supabase environment variables not configured - using mock data');
+export function getSupabaseClient(): SupabaseClient<Database, "behindcurtain"> | null {
+  if (!supabaseUrl || !supabaseAnonKey) {
     return null;
   }
 
-  supabaseClient = createClient(supabaseUrl, supabaseKey);
-  return supabaseClient;
+  if (cachedClient) {
+    return cachedClient;
+  }
+
+  cachedClient = createClient<Database>(supabaseUrl, supabaseAnonKey, {
+    db: { schema: "behindcurtain" },
+  });
+
+  return cachedClient;
 }
+
+export const getSupabaseBrowserClient = getSupabaseClient;
