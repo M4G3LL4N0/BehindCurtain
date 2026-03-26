@@ -1,172 +1,221 @@
-import Image from "next/image";
-import { getRelationships, getSources } from "@/lib/db";
+import Link from "next/link";
+import Header from "@/components/header";
+import ProfileCard from "@/components/profile-card";
+import { getAllProfiles } from "@/lib/db";
+import {
+  ArrowRight,
+  Database,
+  Network,
+  ShieldCheck,
+  Sparkles,
+  FileSearch,
+} from "lucide-react";
 
-export default async function Home() {
-  const relationships = await getRelationships();
-  const sources = await getSources();
+export default async function HomePage() {
+  const profiles = await getAllProfiles();
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-6xl flex-col items-center justify-between py-48 px-6 bg-white dark:bg-black sm:items-start sm:px-12">
-        <div className="w-full max-w-6xl">
-          <div className="flex flex-col items-start gap-8">
-            <div className="flex items-center gap-4">
-              <Image
-                className="dark:invert"
-                src="/next.svg"
-                alt="Next.js logo"
-                width={120}
-                height={24}
-                priority
-              />
-              <span className="text-sm font-medium text-zinc-500 dark:text-zinc-400">BehindCurtain Intelligence</span>
-            </div>
-            <div className="flex flex-col gap-8">
-              <h1 className="max-w-3xl text-5xl font-bold leading-[1.1] tracking-tight text-black dark:text-zinc-50 sm:text-6xl">
-                Source-linked intelligence<br />for understanding power,<br />people, and events.
-              </h1>
-              <p className="max-w-2xl text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                BehindCurtain provides trusted intelligence on the relationships and networks shaping global affairs. 
-                Our platform connects verified sources to deliver actionable insights.
-              </p>
-            </div>
-          </div>
+    <main>
+      <Header />
 
-          <div className="flex flex-col w-full max-w-2xl gap-3 mt-8">
-            {/* Search Bar */}
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search profiles..."
-                className="w-full px-4 py-3 rounded-full bg-black/[.03] dark:bg-white/[.08] border border-black/[.08] dark:border-white/[.145] text-black dark:text-zinc-50 placeholder-zinc-600 dark:placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-accent"
-              />
-              <svg
-                className="absolute right-3 top-3.5 h-5 w-5 text-zinc-600 dark:text-zinc-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </div>
+      <section className="container" style={{ paddingTop: 20, paddingBottom: 40 }}>
+        <div className="grid-hero">
+          <div className="panel" style={{ padding: 30 }}>
+            <div className="kicker">Source-linked intelligence platform</div>
+            <h1 className="big-title">See what’s behind the story.</h1>
+            <p
+              className="muted"
+              style={{ fontSize: 18, lineHeight: 1.7, maxWidth: 760 }}
+            >
+              BehindCurtain turns fragmented public information into structured
+              timelines, source-backed profiles, and relationship maps for
+              understanding people, power, and events.
+            </p>
 
-            {/* Filter Controls */}
-            <div className="flex flex-wrap gap-3 mt-2">
-              <select className="flex-1 min-w-[120px] px-3 py-2 rounded-full bg-black/[.03] dark:bg-white/[.08] border border-black/[.08] dark:border-white/[.145] text-black dark:text-zinc-50">
-                <option value="">All Roles</option>
-                <option>Politician</option>
-                <option>Business Leader</option>
-                <option>Activist</option>
-              </select>
-
-              <select className="flex-1 min-w-[120px] px-3 py-2 rounded-full bg-black/[.03] dark:bg-white/[.08] border border-black/[.08] dark:border-white/[.145] text-black dark:text-zinc-50">
-                <option value="">All Regions</option>
-                <option>North America</option>
-                <option>Europe</option>
-                <option>Asia</option>
-              </select>
-
-              <select className="flex-1 min-w-[120px] px-3 py-2 rounded-full bg-black/[.03] dark:bg-white/[.08] border border-black/[.08] dark:border-white/[.145] text-black dark:text-zinc-50">
-                <option value="">All Tags</option>
-                <option>Government</option>
-                <option>Finance</option>
-                <option>Technology</option>
-              </select>
-            </div>
-          </div>
-
-          {/* Relationships Section */}
-          <div className="w-full mt-16">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-3xl font-bold">Key Relationships</h2>
-              <a href="#" className="text-sm font-medium text-accent hover:underline">
-                Explore All →
+            <div
+              style={{
+                display: "flex",
+                gap: 12,
+                flexWrap: "wrap",
+                marginTop: 24,
+              }}
+            >
+              <Link href="/explorer" className="btn btn-primary">
+                Explore profiles <ArrowRight size={16} />
+              </Link>
+              <a href="#trust" className="btn btn-secondary">
+                Review trust layer
               </a>
             </div>
-            <div className="relationship-grid">
-              {relationships.map((relationship) => (
-                <div key={relationship.id} className="relationship-card hover:shadow-lg transition-all">
-                  <div className="flex items-center gap-4">
-                    <div className={`w-14 h-14 rounded-full ${
-                      relationship.type === 'business' ? 'bg-accent/10' : 'bg-success/10'
-                    } flex items-center justify-center`}>
-                      <span className={relationship.type === 'business' ? 'text-accent' : 'text-success'}>
-                        {relationship.initials}
-                      </span>
-                    </div>
-                    <div>
-                      <h3 className="font-medium text-lg">{relationship.name}</h3>
-                      <p className="text-sm text-muted">{relationship.relationship}</p>
-                    </div>
-                  </div>
-                  <div className="text-sm text-muted mt-3 leading-relaxed">
-                    {relationship.description}
+
+            <div
+              style={{
+                display: "flex",
+                gap: 10,
+                flexWrap: "wrap",
+                marginTop: 28,
+              }}
+            >
+              <span className="badge">facts vs allegations</span>
+              <span className="badge">source-linked claims</span>
+              <span className="badge">relationship mapping</span>
+              <span className="badge">timeline intelligence</span>
+            </div>
+          </div>
+
+          <div className="panel" style={{ padding: 24 }}>
+            <div className="card-title" style={{ marginBottom: 14 }}>
+              Platform stack
+            </div>
+            <div style={{ display: "grid", gap: 14 }}>
+              {[
+                ["Profile system", "Structured people and entity records"],
+                ["Timeline engine", "Chronology with claim classification"],
+                ["Source layer", "Every serious claim tied to evidence"],
+                ["Relationship graph", "Understand who connects to what"],
+                ["Research mode", "Fast discovery for journalists and creators"],
+              ].map(([title, body]) => (
+                <div
+                  key={title}
+                  style={{
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    borderRadius: 18,
+                    padding: 16,
+                    background: "rgba(255,255,255,0.025)",
+                  }}
+                >
+                  <div style={{ fontWeight: 700, marginBottom: 6 }}>{title}</div>
+                  <div className="muted" style={{ lineHeight: 1.6 }}>
+                    {body}
                   </div>
                 </div>
               ))}
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Sources Section */}
-          <div className="w-full mt-16">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-3xl font-bold">Verified Sources</h2>
-              <a href="#" className="text-sm font-medium text-accent hover:underline">
-                View All →
-              </a>
+      <section className="container" style={{ paddingBottom: 40 }}>
+        <div className="grid-3">
+          <div className="panel" style={{ padding: 22 }}>
+            <Database size={22} />
+            <h3 className="card-title" style={{ marginTop: 12, marginBottom: 10 }}>
+              Structured records
+            </h3>
+            <div className="muted" style={{ lineHeight: 1.7 }}>
+              Transform scattered articles, statements, filings, and records into
+              one researchable profile.
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {sources.map((source) => (
-                <div key={source.id} className="source-card hover:shadow-lg transition-all">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className={`w-10 h-10 rounded-full ${
-                      source.type === 'article' ? 'bg-accent/10' : 'bg-warning/10'
-                    } flex items-center justify-center`}>
-                      <span className={source.type === 'article' ? 'text-accent' : 'text-warning'}>
-                        {source.initials}
-                      </span>
-                    </div>
-                    <div>
-                      <h3 className="font-medium text-lg">{source.name}</h3>
-                      <p className="text-sm text-muted">{source.type}</p>
-                    </div>
-                  </div>
-                  <p className="text-sm text-muted mb-4 leading-relaxed">
-                    {source.description}
-                  </p>
-                  <a href="#" className="text-accent text-sm font-medium hover:underline flex items-center gap-1">
-                    View Source <span className="text-xs">→</span>
-                  </a>
-                </div>
-              ))}
+          </div>
+
+          <div className="panel" style={{ padding: 22 }}>
+            <FileSearch size={22} />
+            <h3 className="card-title" style={{ marginTop: 12, marginBottom: 10 }}>
+              Source-linked claims
+            </h3>
+            <div className="muted" style={{ lineHeight: 1.7 }}>
+              Separate verified facts from allegations, denials, disputes, and
+              public claims.
+            </div>
+          </div>
+
+          <div className="panel" style={{ padding: 22 }}>
+            <Network size={22} />
+            <h3 className="card-title" style={{ marginTop: 12, marginBottom: 10 }}>
+              Relationship intelligence
+            </h3>
+            <div className="muted" style={{ lineHeight: 1.7 }}>
+              Follow the links between people, organizations, cases, statements,
+              and events.
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-6 text-base font-medium mt-12 sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      <section className="container" style={{ paddingBottom: 40 }}>
+        <div
+          className="panel"
+          style={{
+            padding: 24,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: 20,
+            flexWrap: "wrap",
+          }}
+        >
+          <div>
+            <div className="kicker">MVP explorer</div>
+            <h2 className="section-title">Seed the first profiles now.</h2>
+            <p
+              className="muted"
+              style={{ maxWidth: 760, lineHeight: 1.7 }}
+            >
+              Start with a controlled dataset, strong sourcing rules, and premium
+              profile pages. Then expand into graph intelligence, alerts, and
+              research workflows.
+            </p>
+          </div>
+          <Link href="/explorer" className="btn btn-primary">
+            Open explorer <ArrowRight size={16} />
+          </Link>
         </div>
-      </main>
-    </div>
+      </section>
+
+      <section className="container" id="trust" style={{ paddingBottom: 40 }}>
+        <div className="grid-2">
+          <div className="panel" style={{ padding: 24 }}>
+            <ShieldCheck size={22} />
+            <h2 className="section-title" style={{ marginTop: 12 }}>
+              Trust layer
+            </h2>
+            <div className="muted" style={{ lineHeight: 1.8 }}>
+              BehindCurtain should never present rumor as fact. Serious claims
+              must be source-linked, statuses must be labeled clearly, and
+              profiles must support corrections, denials, and updates.
+            </div>
+          </div>
+
+          <div className="panel" style={{ padding: 24 }} id="launch">
+            <Sparkles size={22} />
+            <h2 className="section-title" style={{ marginTop: 12 }}>
+              Launch path
+            </h2>
+            <div className="muted" style={{ lineHeight: 1.8 }}>
+              Ship a strong landing page, explorer, and profile system first.
+              Then connect Supabase, add admin ingestion, and expand into
+              search, graph views, and monitoring.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="container" style={{ paddingBottom: 80 }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "end",
+            gap: 20,
+            marginBottom: 20,
+            flexWrap: "wrap",
+          }}
+        >
+          <div>
+            <div className="kicker">Preview profiles</div>
+            <h2 className="section-title">What the product feels like</h2>
+          </div>
+          <Link href="/explorer" className="btn btn-secondary">
+            View all
+          </Link>
+        </div>
+
+        <div className="grid-3">
+          {profiles.map((profile) => (
+            <ProfileCard key={profile.slug} profile={profile} />
+          ))}
+        </div>
+      </section>
+    </main>
   );
 }

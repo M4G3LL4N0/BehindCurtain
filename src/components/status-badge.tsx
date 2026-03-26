@@ -25,32 +25,7 @@ export default function StatusBadge({ status }: { status: ClaimStatus }) {
         display: "inline-flex",
       }}
     >
-      {status.replace("_", " ")}
-    </span>
-  );
-}
-import { ClaimStatus } from "@/lib/types";
-
-const statusStyles: Record<ClaimStatus, string> = {
-  verified: "text-success border-success/20 bg-success/10",
-  allegation: "text-warning border-warning/20 bg-warning/10",  
-  charge: "text-danger border-danger/20 bg-danger/10",
-  conviction: "text-danger border-danger/30 bg-danger/15",
-  settlement: "text-accent border-accent/20 bg-accent/10",
-  denial: "text-muted border-line bg-panel",
-  disputed: "text-warning border-warning/20 bg-warning/10",
-  retracted: "text-danger/80 border-danger/15 bg-danger/5",
-};
-
-interface StatusBadgeProps {
-  status: ClaimStatus;
-  className?: string;
-}
-
-export function StatusBadge({ status, className = "" }: StatusBadgeProps) {
-  return (
-    <span className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium uppercase tracking-wide ${statusStyles[status]} ${className}`}>
-      {status.replace(/_/g, ' ')}
+      {status.replace(/_/g, " ")}
     </span>
   );
 }

@@ -1,8 +1,7 @@
 import { notFound } from "next/navigation";
 import Header from "@/components/header";
-import { getProfileBySlug } from "@/lib/data";
-import { getProfileBySlug as getProfileFromDb } from "@/lib/db";
 import TimelineList from "@/components/timeline-list";
+import { getProfileBySlug } from "@/lib/db";
 
 export default async function ProfilePage({
   params,
@@ -10,13 +9,11 @@ export default async function ProfilePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  // Try DB first, fall back to mock data
-  let profile = await getProfileFromDb(slug);
-  if (!profile) {
-    profile = await getProfileBySlug(slug);
-  }
+  const profile = await getProfileBySlug(slug);
 
-  if (!profile) notFound();
+  if (!profile) {
+    notFound();
+  }
 
   return (
     <main>
@@ -73,9 +70,7 @@ export default async function ProfilePage({
       <section className="container" style={{ paddingBottom: 30 }}>
         <div className="grid-2">
           <div className="panel" style={{ padding: 24 }}>
-            <div className="card-title" style={{ marginBottom: 18 }}>
-              Timeline
-            </div>
+            <div className="card-title" style={{ marginBottom: 18 }}>Timeline</div>
             <TimelineList events={profile.timeline} sources={profile.sources} />
           </div>
 
@@ -99,7 +94,7 @@ export default async function ProfilePage({
                   }}
                 >
                   <div className="muted" style={{ fontSize: 13, marginBottom: 8 }}>
-                    {source.type.replace("_", " ")} · {source.publisher} · {source.date}
+                    {source.type.replace(/_/g, " ")} · {source.publisher} · {source.date}
                   </div>
                   <div style={{ fontWeight: 700 }}>{source.title}</div>
                 </a>
