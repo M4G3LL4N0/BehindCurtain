@@ -48,6 +48,78 @@ export async function getAllProfiles(): Promise<Profile[]> {
   return data.map(mapProfileRowToBaseProfile);
 }
 
+export async function createProfile(profile: ProfileInsert): Promise<ProfileRow | null> {
+  const supabase = getSupabaseClient();
+  if (!supabase) return null;
+
+  const { data, error } = await supabase
+    .from("profiles")
+    .insert(profile)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Error creating profile:", error);
+    return null;
+  }
+
+  return data;
+}
+
+export async function createSource(source: SourceInsert): Promise<SourceRow | null> {
+  const supabase = getSupabaseClient();
+  if (!supabase) return null;
+
+  const { data, error } = await supabase
+    .from("sources")
+    .insert(source)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Error creating source:", error);
+    return null;
+  }
+
+  return data;
+}
+
+export async function createTimelineEvent(event: TimelineEventInsert): Promise<TimelineEventRow | null> {
+  const supabase = getSupabaseClient();
+  if (!supabase) return null;
+
+  const { data, error } = await supabase
+    .from("timeline_events")
+    .insert(event)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Error creating timeline event:", error);
+    return null;
+  }
+
+  return data;
+}
+
+export async function createRelationship(relationship: RelationshipInsert): Promise<RelationshipRow | null> {
+  const supabase = getSupabaseClient();
+  if (!supabase) return null;
+
+  const { data, error } = await supabase
+    .from("relationships")
+    .insert(relationship)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Error creating relationship:", error);
+    return null;
+  }
+
+  return data;
+}
+
 export async function getProfileBySlug(slug: string): Promise<Profile | undefined> {
   const supabase = getSupabaseClient();
 
