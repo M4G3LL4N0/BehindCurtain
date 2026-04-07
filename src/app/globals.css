@@ -3,21 +3,22 @@
 @tailwind utilities;
 
 :root {
-  --bg: #07111f;
-  --panel: #0d1728;
-  --panel-2: #111f35;
-  --line: rgba(255,255,255,0.08);
-  --text: #e7edf7;
-  --muted: #93a4bf;
-  --accent: #8cc7ff;
-  --accent-2: #d9e9ff;
-  --danger: #ffb4b4;
-  --warning: #ffe5a8;
-  --success: #b7f0c2;
-  --shadow: 0 12px 32px rgba(0,0,0,0.15);
-  --shadow-sm: 0 4px 12px rgba(0,0,0,0.08);
-  --radius: 20px;
+  --bg: #0a0f1a;
+  --panel: #111827;
+  --panel-2: #1a2438;
+  --line: rgba(255,255,255,0.1);
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --accent: #f97316;
+  --accent-2: #fb923c;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --success: #10b981;
+  --shadow: 0 16px 40px rgba(0,0,0,0.25);
+  --shadow-sm: 0 6px 20px rgba(0,0,0,0.15);
+  --radius: 24px;
   --radius-sm: 12px;
+  --glow: radial-gradient(circle at 50% 0%, rgba(249,115,22,0.15), transparent 60%);
 }
 
 * {
@@ -39,11 +40,12 @@ html, body {
   margin: 0;
   padding: 0;
   background:
-    radial-gradient(circle at top, rgba(140,199,255,0.12), transparent 28%),
-    linear-gradient(180deg, #050c17 0%, #091221 50%, #07111f 100%);
+    var(--glow),
+    radial-gradient(circle at 50% 0%, rgba(17,24,39,0.5), transparent 60%),
+    linear-gradient(180deg, #0a0f1a 0%, #111827 100%);
   color: var(--text);
   min-height: 100%;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 a {
@@ -59,10 +61,17 @@ a {
 }
 
 .panel {
-  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
   border: 1px solid var(--line);
-  border-radius: 24px;
-  backdrop-filter: blur(8px);
+  border-radius: var(--radius);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.panel:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
 }
 
 .source-card {
@@ -121,12 +130,18 @@ a {
   padding: 6px 12px;
   border: 1px solid var(--line);
   border-radius: 32px;
-  background: rgba(255,255,255,0.02);
+  background: rgba(255,255,255,0.03);
   color: var(--accent-2);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.04em;
   font-weight: 600;
   text-transform: uppercase;
+  transition: all 0.2s;
+}
+
+.badge:hover {
+  background: rgba(255,255,255,0.05);
+  border-color: var(--accent);
 }
 
 .meta-row {
@@ -197,14 +212,16 @@ a {
 }
 
 .btn-primary {
-  background: linear-gradient(180deg, #b7dbff 0%, #7dbfff 100%);
-  color: #05111f;
+  background: linear-gradient(45deg, #f97316 0%, #ec4899 100%);
+  color: white;
   font-weight: 700;
+  border: none;
+  box-shadow: 0 4px 20px rgba(249,115,22,0.2);
 }
 
 .btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 12px 28px rgba(140,199,255,0.18);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(249,115,22,0.3);
 }
 
 .btn-secondary {
@@ -282,23 +299,31 @@ a {
 }
 
 .big-title {
-  font-size: clamp(42px, 8vw, 82px);
-  line-height: 0.94;
+  font-size: clamp(48px, 8vw, 88px);
+  line-height: 0.92;
   letter-spacing: -0.04em;
   margin: 12px 0 18px;
+  background: linear-gradient(45deg, #f8fafc 0%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .section-title {
-  font-size: clamp(26px, 4vw, 42px);
+  font-size: clamp(28px, 4vw, 48px);
   line-height: 1.02;
   letter-spacing: -0.03em;
   margin: 0 0 14px;
+  color: var(--text);
+  font-weight: 700;
 }
 
 .card-title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
   letter-spacing: -0.02em;
+  color: var(--text);
+  margin: 0 0 8px;
 }
 
 select {
@@ -316,7 +341,12 @@ select {
   border-radius: 16px;
   padding: 14px 16px;
   outline: none;
-  transition: border-color 0.2s;
+  transition: all 0.2s;
+}
+
+.input:focus, select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(249,115,22,0.1);
 }
 
 .input:focus, select:focus {
