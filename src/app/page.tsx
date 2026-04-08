@@ -37,6 +37,34 @@ export default async function HomePage() {
               placeholder="Search profiles, organizations, events..."
               style={{ paddingLeft: 44 }}
             />
+            <div className="search-dropdown">
+              <div className="search-dropdown-item">
+                <span className="muted">Recent:</span> Elon Musk
+              </div>
+              <div className="search-dropdown-item">
+                <span className="muted">Recent:</span> OpenAI
+              </div>
+              <div className="search-dropdown-item">
+                <span className="muted">Category:</span> Tech CEOs
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="panel" style={{ padding: 24, marginBottom: 24 }}>
+          <div className="grid-3">
+            <div className="stat-card">
+              <div className="stat-number">{profiles.length}+</div>
+              <div className="stat-label">Profiles</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-number">1,200+</div>
+              <div className="stat-label">Sources</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-number">500+</div>
+              <div className="stat-label">Relationships</div>
+            </div>
           </div>
         </div>
         <div className="grid-hero">
@@ -122,14 +150,25 @@ export default async function HomePage() {
               <Star size={18} />
               <h2 className="section-title" style={{ margin: 0 }}>Featured Profiles</h2>
             </div>
-            <div className="grid-2" style={{ gap: 16 }}>
-              {profiles.slice(0, 4).map(profile => (
-                <ProfileCard 
+            <div className="featured-grid">
+              {profiles.slice(0, 4).map((profile, i) => (
+                <div 
                   key={profile.slug} 
-                  profile={profile} 
-                  compact 
-                  featured={profile.slug === 'elon-musk'} // Example featured badge
-                />
+                  className={`featured-item featured-${i+1}`}
+                >
+                  <ProfileCard 
+                    profile={profile} 
+                    compact 
+                    featured={profile.slug === 'elon-musk'}
+                  />
+                  {i === 0 && (
+                    <div className="featured-banner">
+                      <span className="featured-badge">Editor's Pick</span>
+                      <h3 className="featured-title">{profile.name}</h3>
+                      <p className="featured-description">{profile.short_bio || profile.role || ''}</p>
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
           </div>
