@@ -179,6 +179,12 @@ a {
   border-radius: var(--radius);
   border: 1px solid var(--line);
   padding: 32px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.profile-header:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.3);
 }
 
 .profile-identity {
