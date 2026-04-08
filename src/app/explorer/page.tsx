@@ -92,12 +92,14 @@ export default function ExplorerPage() {
               placeholder="Search profiles, events, sources..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              style={{ paddingRight: isSearching ? 100 : 16 }}
             />
             {isSearching && (
               <div style={{
                 position: 'absolute',
-                right: 12,
-                top: 12,
+                right: 16,
+                top: '50%',
+                transform: 'translateY(-50%)',
                 fontSize: 14,
                 color: '#666'
               }}>
