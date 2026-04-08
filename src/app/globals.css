@@ -259,15 +259,20 @@ a {
 }
 
 .relationship-type {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   font-size: 11px;
-  padding: 2px 8px;
+  padding: 2px 8px 2px 6px;
   border-radius: 32px;
   background: var(--panel-2);
   border: 1px solid var(--line);
   color: var(--muted);
-  margin-left: 8px;
   text-transform: capitalize;
+}
+
+.timeline-item svg {
+  color: var(--accent-2);
 }
 
 .btn {

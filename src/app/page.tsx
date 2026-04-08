@@ -12,6 +12,11 @@ import {
   Search,
   Clock,
   Star,
+  BookOpen,
+  Gavel,
+  Mic,
+  FileText,
+  Landmark,
 } from "lucide-react";
 
 export default async function HomePage() {
@@ -184,30 +189,54 @@ export default async function HomePage() {
                   date: '2 hours ago', 
                   title: 'New court filing added', 
                   profile: 'Elon Musk',
-                  type: 'legal'
+                  type: 'legal',
+                  icon: <Gavel size={14} />
                 },
                 { 
                   date: '5 hours ago', 
                   title: 'Profile updated', 
                   profile: 'Sam Altman',
-                  type: 'business'
+                  type: 'business',
+                  icon: <FileText size={14} />
                 },
                 { 
                   date: 'Yesterday', 
                   title: '3 new sources added', 
                   profile: 'OpenAI',
-                  type: 'media'
+                  type: 'media',
+                  icon: <BookOpen size={14} />
+                },
+                { 
+                  date: 'Yesterday', 
+                  title: 'New interview published', 
+                  profile: 'Satya Nadella',
+                  type: 'interview',
+                  icon: <Mic size={14} />
+                },
+                { 
+                  date: '2 days ago', 
+                  title: 'Government record added', 
+                  profile: 'Nvidia',
+                  type: 'public_record',
+                  icon: <Landmark size={14} />
                 }
               ].map((item, i) => (
                 <div key={i} className="timeline-item">
                   <div style={{ 
                     display: 'flex', 
-                    alignItems: 'baseline',
+                    alignItems: 'center',
                     gap: 8,
                     marginBottom: 4
                   }}>
                     <span className="muted" style={{ fontSize: 13 }}>{item.date}</span>
-                    <span className="relationship-type">{item.type}</span>
+                    <div style={{ 
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 4
+                    }}>
+                      {item.icon}
+                      <span className="relationship-type">{item.type}</span>
+                    </div>
                   </div>
                   <div style={{ fontWeight: 600 }}>{item.title}</div>
                   <Link 
