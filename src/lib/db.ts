@@ -16,7 +16,6 @@ import type {
 
 function mapProfileRowToBaseProfile(row: ProfileRow): Profile {
   return {
-    id: row.id,
     slug: row.slug,
     name: row.name,
     shortBio: row.short_bio ?? "",
@@ -27,8 +26,6 @@ function mapProfileRowToBaseProfile(row: ProfileRow): Profile {
     sources: [],
     timeline: [],
     relationships: [],
-    createdAt: row.created_at,
-    updatedAt: row.updated_at
   };
 }
 

@@ -44,7 +44,6 @@ export interface Relationship {
 }
 
 export interface Profile {
-  id?: string;  // Add optional id for database operations
   slug: string;
   name: string;
   shortBio: string;
@@ -55,6 +54,4 @@ export interface Profile {
   sources: SourceItem[];
   timeline: TimelineEvent[];
   relationships: Relationship[];
-  createdAt?: string;  // Optional for database records
-  updatedAt?: string;  // Optional for database records
 }
