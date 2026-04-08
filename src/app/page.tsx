@@ -52,7 +52,11 @@ export default async function HomePage() {
                     dropdown.innerHTML = results.map(result => `
                       <div class="search-dropdown-item">
                         <span>${result.name}</span>
-                        <span class="muted">${result.type}</span>
+                        <div style="display: flex; gap: 8px; font-size: 12px;">
+                          <span class="muted">${result.type}</span>
+                          ${result.role ? `<span class="muted">${result.role}</span>` : ''}
+                          ${result.region ? `<span class="muted">${result.region}</span>` : ''}
+                        </div>
                       </div>
                     `).join('');
                   }
