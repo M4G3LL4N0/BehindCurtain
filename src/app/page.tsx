@@ -9,6 +9,9 @@ import {
   ShieldCheck,
   Sparkles,
   FileSearch,
+  Search,
+  Clock,
+  Star,
 } from "lucide-react";
 
 export default async function HomePage() {
@@ -18,7 +21,24 @@ export default async function HomePage() {
     <main>
       <Header />
 
-      <section className="container" style={{ paddingTop: 20, paddingBottom: 40 }}>
+      <section className="container" style={{ paddingTop: 20, paddingBottom: 20 }}>
+        <div className="panel" style={{ padding: 16, marginBottom: 24 }}>
+          <div style={{ position: 'relative' }}>
+            <Search size={18} style={{ 
+              position: 'absolute',
+              left: 16,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              color: 'var(--muted)'
+            }} />
+            <input 
+              type="text" 
+              className="input" 
+              placeholder="Search profiles, organizations, events..."
+              style={{ paddingLeft: 44 }}
+            />
+          </div>
+        </div>
         <div className="grid-hero">
           <div className="panel" style={{ padding: 30 }}>
             <div className="kicker">Source-linked intelligence platform</div>
@@ -95,7 +115,78 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="container" style={{ paddingBottom: 40 }}>
+      <section className="container" style={{ paddingBottom: 20 }}>
+        <div className="grid-2" style={{ marginBottom: 40 }}>
+          <div className="panel" style={{ padding: 24 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+              <Star size={18} />
+              <h2 className="section-title" style={{ margin: 0 }}>Featured Profiles</h2>
+            </div>
+            <div className="grid-2" style={{ gap: 16 }}>
+              {profiles.slice(0, 4).map(profile => (
+                <ProfileCard 
+                  key={profile.slug} 
+                  profile={profile} 
+                  compact 
+                  featured={profile.slug === 'elon-musk'} // Example featured badge
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="panel" style={{ padding: 24 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+              <Clock size={18} />
+              <h2 className="section-title" style={{ margin: 0 }}>Recent Updates</h2>
+            </div>
+            <div className="timeline">
+              {[
+                { 
+                  date: '2 hours ago', 
+                  title: 'New court filing added', 
+                  profile: 'Elon Musk',
+                  type: 'legal'
+                },
+                { 
+                  date: '5 hours ago', 
+                  title: 'Profile updated', 
+                  profile: 'Sam Altman',
+                  type: 'business'
+                },
+                { 
+                  date: 'Yesterday', 
+                  title: '3 new sources added', 
+                  profile: 'OpenAI',
+                  type: 'media'
+                }
+              ].map((item, i) => (
+                <div key={i} className="timeline-item">
+                  <div style={{ 
+                    display: 'flex', 
+                    alignItems: 'baseline',
+                    gap: 8,
+                    marginBottom: 4
+                  }}>
+                    <span className="muted" style={{ fontSize: 13 }}>{item.date}</span>
+                    <span className="relationship-type">{item.type}</span>
+                  </div>
+                  <div style={{ fontWeight: 600 }}>{item.title}</div>
+                  <Link 
+                    href={`/profile/${item.profile.toLowerCase().replace(' ', '-')}`} 
+                    className="muted" 
+                    style={{ 
+                      display: 'inline-block',
+                      fontSize: 14,
+                      marginTop: 4
+                    }}
+                  >
+                    {item.profile} →
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
         <div className="grid-3">
           <div className="panel" style={{ padding: 22 }}>
             <Database size={22} />
