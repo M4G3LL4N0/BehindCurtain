@@ -8,7 +8,7 @@ export async function GET(request: Request) {
   const profiles = await getAllProfiles();
   
   const results = profiles
-    .filter(profile => 
+    .filter((profile: Profile) => 
       profile.name.toLowerCase().includes(query) ||
       profile.role?.toLowerCase().includes(query) ||
       profile.region?.toLowerCase().includes(query)
@@ -16,7 +16,9 @@ export async function GET(request: Request) {
     .map(profile => ({
       name: profile.name,
       slug: profile.slug,
-      type: 'Profile'
+      type: 'Profile',
+      ...(profile.role && { role: profile.role }),
+      ...(profile.region && { region: profile.region })
     }))
     .slice(0, 5);
 
