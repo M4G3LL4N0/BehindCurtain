@@ -9,21 +9,22 @@
 ▲ Next.js 16.2.0 (Turbopack)
 
   Creating an optimized production build ...
-✓ Compiled successfully in 14.7s
+✓ Compiled successfully in 2.1s
   Skipping validation of types
-  Finished TypeScript config validation in 35ms ...
+  Finished TypeScript config validation in 5ms ...
   Collecting page data using 7 workers ...
-  Generating static pages using 7 workers (0/6) ...
-  Generating static pages using 7 workers (1/6) 
-  Generating static pages using 7 workers (2/6) 
-  Generating static pages using 7 workers (4/6) 
-✓ Generating static pages using 7 workers (6/6) in 886ms
+  Generating static pages using 7 workers (0/7) ...
+  Generating static pages using 7 workers (1/7) 
+  Generating static pages using 7 workers (3/7) 
+  Generating static pages using 7 workers (5/7) 
+✓ Generating static pages using 7 workers (7/7) in 117ms
   Finalizing page optimization ...
 
 Route (app)
 ┌ ○ /
 ├ ○ /_not-found
 ├ ○ /admin
+├ ƒ /api/search
 ├ ○ /explorer
 └ ƒ /profiles/[slug]
 
