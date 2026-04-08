@@ -41,18 +41,25 @@ export default async function HomePage() {
               className="input" 
               placeholder="Search profiles, organizations, events..."
               style={{ paddingLeft: 44 }}
+              onChange={async (e) => {
+                const query = e.target.value;
+                if (query.length > 2) {
+                  const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+                  const results = await response.json();
+                  // Update dropdown with real results
+                  const dropdown = document.querySelector('.search-dropdown');
+                  if (dropdown) {
+                    dropdown.innerHTML = results.map(result => `
+                      <div class="search-dropdown-item">
+                        <span>${result.name}</span>
+                        <span class="muted">${result.type}</span>
+                      </div>
+                    `).join('');
+                  }
+                }
+              }}
             />
-            <div className="search-dropdown">
-              <div className="search-dropdown-item">
-                <span className="muted">Recent:</span> Elon Musk
-              </div>
-              <div className="search-dropdown-item">
-                <span className="muted">Recent:</span> OpenAI
-              </div>
-              <div className="search-dropdown-item">
-                <span className="muted">Category:</span> Tech CEOs
-              </div>
-            </div>
+            <div className="search-dropdown"></div>
           </div>
         </div>
 
