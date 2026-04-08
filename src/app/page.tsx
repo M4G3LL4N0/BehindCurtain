@@ -226,6 +226,63 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
+
+        <div className="grid-2" style={{ marginBottom: 40 }}>
+          <div className="panel" style={{ padding: 24 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+              <FileSearch size={18} />
+              <h2 className="section-title" style={{ margin: 0 }}>Featured Sources</h2>
+            </div>
+            <div className="featured-grid">
+              {[
+                {
+                  title: "SEC Filing: Tesla Q4 Earnings",
+                  type: "court_filing",
+                  date: "2026-01-25",
+                  profile: "Elon Musk",
+                  href: "#"
+                },
+                {
+                  title: "Interview with WSJ",
+                  type: "interview",
+                  date: "2026-02-10",
+                  profile: "Sam Altman",
+                  href: "#"
+                },
+                {
+                  title: "OpenAI Board Statement",
+                  type: "official_statement",
+                  date: "2026-03-15",
+                  profile: "OpenAI",
+                  href: "#"
+                },
+                {
+                  title: "DOJ Investigation Report",
+                  type: "public_record",
+                  date: "2026-03-20",
+                  profile: "Elon Musk",
+                  href: "#"
+                }
+              ].map((source, i) => (
+                <div key={i} className="source-card">
+                  <div className="meta-row" style={{ marginBottom: 8 }}>
+                    <span className="badge">{source.type.replace('_', ' ')}</span>
+                    <span className="muted">{source.date}</span>
+                  </div>
+                  <h3 className="card-title" style={{ marginBottom: 8 }}>
+                    {source.title}
+                  </h3>
+                  <Link 
+                    href={`/profile/${source.profile.toLowerCase().replace(' ', '-')}`}
+                    className="muted"
+                  >
+                    {source.profile} →
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
         <div className="grid-3">
           <div className="panel" style={{ padding: 22 }}>
             <Database size={22} />
