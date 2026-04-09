@@ -6,18 +6,19 @@
 ⚠ Invalid next.config.ts options detected: 
 ⚠     Unrecognized key(s) in object: 'eslint'
 ⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
-▲ Next.js 16.2.0 (Turbopack)
+⨯ Another next build process is already running.
 
-  Creating an optimized production build ...
-✓ Compiled successfully in 2.8s
-  Skipping validation of types
-  Finished TypeScript config validation in 5ms ...
-  Collecting page data using 7 workers ...
+  This could be:
+  - A next build still in progress
+  - A previous build that didn't exit cleanly
+
+  Suggestion: Wait for the build to complete.
+Collecting page data using 7 workers ...
   Generating static pages using 7 workers (0/7) ...
   Generating static pages using 7 workers (1/7) 
   Generating static pages using 7 workers (3/7) 
   Generating static pages using 7 workers (5/7) 
-✓ Generating static pages using 7 workers (7/7) in 139ms
+✓ Generating static pages using 7 workers (7/7) in 476ms
   Finalizing page optimization ...
 
 Route (app)
