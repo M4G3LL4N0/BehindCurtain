@@ -75,7 +75,18 @@ export default async function HomePage() {
                 style={{ paddingLeft: 44 }}
                 aria-label="Search verified profiles, sources, and events"
                 enterKeyHint="search"
+                disabled
               />
+              <div style={{ 
+                position: 'absolute',
+                right: 16,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                fontSize: 13,
+                color: 'var(--muted)'
+              }}>
+                Coming soon
+              </div>
               <div className="search-dropdown">
                 {recentProfiles.length > 0 ? (
                   <>
@@ -196,32 +207,42 @@ export default async function HomePage() {
                 {
                   icon: <File size={18} />,
                   title: "Verified Profiles",
-                  description: "Structured records for people and organizations with source-linked details"
+                  description: "Structured records with source-linked details and verification status"
                 },
                 {
                   icon: <Timeline size={18} />,
                   title: "Event Timelines",
-                  description: "Chronological sequences with claim status and source citations"
+                  description: "Chronological sequences with claim status indicators and source citations"
                 },
                 {
                   icon: <LinkIcon size={18} />,
                   title: "Source Verification",
-                  description: "Every claim tied to public records, statements, or verified materials"
+                  description: "Every claim requires at least one public record, statement, or verified source"
                 },
                 {
                   icon: <Users size={18} />,
                   title: "Relationship Mapping",
-                  description: "Visualize connections between people, organizations, and events"
+                  description: "Visualize connections with labeled relationship types and evidence"
                 },
                 {
                   icon: <SearchIcon size={18} />,
-                  title: "Advanced Search",
-                  description: "Discover connections across profiles, sources, and timelines"
+                  title: "Cross-Profile Search",
+                  description: "Find connections across people, organizations, and events"
                 },
                 {
                   icon: <Verified size={18} />,
                   title: "Claim Classification",
-                  description: "Clear labels for facts, allegations, and public statements"
+                  description: "Clear status labels: verified facts, allegations, disputes, and denials"
+                },
+                {
+                  icon: <ShieldCheck size={18} />,
+                  title: "Trust Framework",
+                  description: "Multi-step verification process with source quality ratings"
+                },
+                {
+                  icon: <Layers size={18} />,
+                  title: "Evidence Stack",
+                  description: "View all supporting materials in context with metadata"
                 }
               ].map((item, i) => (
                 <div
@@ -515,6 +536,56 @@ export default async function HomePage() {
       </section>
 
       <section className="container" style={{ paddingBottom: 40 }}>
+        <div className="panel" style={{ padding: 24, marginBottom: 24 }}>
+          <div className="grid-2" style={{ gap: 24 }}>
+            <div>
+              <div className="kicker">Verification Methodology</div>
+              <h2 className="section-title">How We Verify Information</h2>
+              <p className="muted" style={{ lineHeight: 1.7, marginBottom: 24 }}>
+                BehindCurtain uses a rigorous multi-step process to ensure information quality:
+              </p>
+              <div style={{ display: "grid", gap: 16, marginBottom: 24 }}>
+                <div style={{ display: "flex", gap: 12 }}>
+                  <FileSearch size={18} />
+                  <div>
+                    <div style={{ fontWeight: 600 }}>Source Evaluation</div>
+                    <div className="muted">Assessing source credibility and proximity to information</div>
+                  </div>
+                </div>
+                <div style={{ display: "flex", gap: 12 }}>
+                  <Scale size={18} />
+                  <div>
+                    <div style={{ fontWeight: 600 }}>Cross-Verification</div>
+                    <div className="muted">Requiring multiple independent sources for facts</div>
+                  </div>
+                </div>
+                <div style={{ display: "flex", gap: 12 }}>
+                  <Verified size={18} />
+                  <div>
+                    <div style={{ fontWeight: 600 }}>Status Labeling</div>
+                    <div className="muted">Clear indicators for verified facts vs allegations</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="grid-2" style={{ gap: 16 }}>
+              <div className="stat-card">
+                <div className="stat-number">3x</div>
+                <div className="stat-label">Minimum Sources</div>
+                <div className="muted" style={{ fontSize: 12, marginTop: 4 }}>
+                  For verified facts
+                </div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-number">100%</div>
+                <div className="stat-label">Source-Linked</div>
+                <div className="muted" style={{ fontSize: 12, marginTop: 4 }}>
+                  Every claim has evidence
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div
           className="panel"
           style={{
