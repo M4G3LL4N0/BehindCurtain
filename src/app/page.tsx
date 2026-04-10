@@ -195,33 +195,33 @@ export default async function HomePage() {
               {[
                 {
                   icon: <File size={18} />,
-                  title: "Profile System",
-                  description: "Structured records for people and organizations with verified details"
+                  title: "Verified Profiles",
+                  description: "Structured records for people and organizations with source-linked details"
                 },
                 {
                   icon: <Timeline size={18} />,
-                  title: "Timeline Engine",
-                  description: "Chronological events with claim status and source links"
+                  title: "Event Timelines",
+                  description: "Chronological sequences with claim status and source citations"
                 },
                 {
                   icon: <LinkIcon size={18} />,
-                  title: "Source Layer",
-                  description: "Every claim tied to public records, statements, or verified sources"
+                  title: "Source Verification",
+                  description: "Every claim tied to public records, statements, or verified materials"
                 },
                 {
                   icon: <Users size={18} />,
-                  title: "Relationship Graph",
+                  title: "Relationship Mapping",
                   description: "Visualize connections between people, organizations, and events"
                 },
                 {
                   icon: <SearchIcon size={18} />,
-                  title: "Research Tools",
-                  description: "Advanced discovery and analysis for journalists and researchers"
+                  title: "Advanced Search",
+                  description: "Discover connections across profiles, sources, and timelines"
                 },
                 {
-                  icon: <Network size={18} />,
-                  title: "Relationship Graph",
-                  description: "Visualize connections between people, organizations, and events"
+                  icon: <Verified size={18} />,
+                  title: "Claim Classification",
+                  description: "Clear labels for facts, allegations, and public statements"
                 }
               ].map((item, i) => (
                 <div
