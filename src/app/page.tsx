@@ -14,6 +14,14 @@ import {
   Search,
   Clock,
   Star,
+  Gavel,
+  FileText,
+  BookOpen,
+  Mic,
+  Landmark,
+  Check,
+  Scale,
+  Layers
 } from "lucide-react";
 
 export default async function HomePage() {
@@ -154,42 +162,6 @@ export default async function HomePage() {
       </section>
 
       <section className="container" style={{ paddingBottom: 20 }}>
-        <div className="grid-2" style={{ marginBottom: 40, gap: 24 }}>
-          <div className="panel" style={{ padding: 24 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-              <Star size={18} />
-              <h2 className="section-title" style={{ margin: 0 }}>Featured Profiles</h2>
-            </div>
-            <Suspense fallback={<Loading />}>
-              <div className="featured-grid">
-                {profiles.slice(0, 4).map((profile, i) => {
-                const featured = i === 0;
-                return (
-                  <div 
-                    key={profile.slug} 
-                    className={`featured-item ${featured ? 'featured-1' : ''}`}
-                  >
-                    <ProfileCard 
-                      profile={profile} 
-                      compact 
-                      featured={featured}
-                    />
-                    {featured && (
-                      <div className="featured-banner">
-                        <span className="featured-badge">Editor's Pick</span>
-                        <h3 className="featured-title">{profile.name}</h3>
-                        <p className="featured-description">
-                          {profile.shortBio || profile.role || 'Featured profile'}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
         <div className="grid-2" style={{ marginBottom: 40, gap: 24 }}>
           <div className="panel" style={{ padding: 24 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
