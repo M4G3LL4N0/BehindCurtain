@@ -36,13 +36,7 @@ import {
   File,
   Timeline,
   Link as LinkIcon,
-  Search as SearchIcon,
-  Book,
-  Users,
-  FilePlus,
-  FileMinus,
-  FileInput,
-  FileOutput
+  Users
 } from "lucide-react";
 
 export default async function HomePage() {
@@ -54,6 +48,7 @@ export default async function HomePage() {
     <main>
       <Header />
 
+      {/* Discovery & Search Section */}
       <section className="container" style={{ paddingTop: 20, paddingBottom: 20 }}>
         <div className="panel" style={{ padding: 24, marginBottom: 24 }}>
           <div style={{ position: 'relative' }}>
@@ -675,11 +670,12 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Methodology Section */}
       <section className="container" style={{ paddingBottom: 40 }}>
         <div className="panel" style={{ padding: 24 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
             <Bookmark size={20} />
-            <h2 className="section-title" style={{ margin: 0 }}>Methodology</h2>
+            <h2 className="section-title" style={{ margin: 0 }}>Our Methodology</h2>
           </div>
           <div style={{ display: 'grid', gap: 24 }}>
             <div>
@@ -698,6 +694,36 @@ export default async function HomePage() {
               <h3 className="card-title" style={{ marginBottom: 12 }}>Fact vs Allegation</h3>
               <div className="muted" style={{ lineHeight: 1.7 }}>
                 We clearly distinguish between verified facts and allegations. Facts require multiple independent sources, while allegations are labeled as unproven claims requiring further investigation.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action Section */}
+      <section className="container" style={{ paddingBottom: 80 }}>
+        <div className="panel" style={{ padding: 24 }}>
+          <div className="grid-2" style={{ gap: 24 }}>
+            <div>
+              <div className="kicker">Start Exploring</div>
+              <h2 className="section-title">Understand the Full Picture</h2>
+              <p className="muted" style={{ lineHeight: 1.7, marginBottom: 24 }}>
+                Dive into verified profiles, source-backed timelines, and relationship maps to uncover the truth behind public figures and organizations.
+              </p>
+              <Link href="/explorer" className="btn btn-primary">
+                Explore Profiles <ArrowRight size={16} />
+              </Link>
+            </div>
+            <div className="grid-2" style={{ gap: 16 }}>
+              <div className="stat-card">
+                <div className="stat-number">{profileCount}</div>
+                <div className="stat-label">Verified Profiles</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-number">
+                  {profiles.reduce((sum, p) => sum + (p.sources?.length || 0), 0)}
+                </div>
+                <div className="stat-label">Cited Sources</div>
               </div>
             </div>
           </div>
