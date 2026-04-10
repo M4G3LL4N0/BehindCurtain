@@ -2,6 +2,8 @@ import Link from "next/link";
 import Header from "@/components/header";
 import ProfileCard from "@/components/profile-card";
 import { getAllProfiles } from "@/lib/db";
+import { Suspense } from "react";
+import Loading from "@/components/loading";
 import {
   ArrowRight,
   Database,
@@ -24,6 +26,8 @@ import {
 
 export default async function HomePage() {
   const profiles = await getAllProfiles();
+  const recentProfiles = profiles.slice(0, 3);
+  const profileCount = profiles.length;
 
   return (
     <main>
@@ -46,33 +50,41 @@ export default async function HomePage() {
               style={{ paddingLeft: 44 }}
             />
             <div className="search-dropdown">
-              <div className="search-dropdown-item">
-                <span className="muted">Recent:</span> Elon Musk
+              {recentProfiles.map((profile) => (
+                <Link 
+                  key={profile.slug}
+                  href={`/profiles/${profile.slug}`}
+                  className="search-dropdown-item"
+                >
+                  <span className="muted">Profile:</span> {profile.name}
+                </Link>
+              ))}
+                })}
               </div>
-              <div className="search-dropdown-item">
-                <span className="muted">Recent:</span> OpenAI
-              </div>
-              <div className="search-dropdown-item">
-                <span className="muted">Category:</span> Tech CEOs
-              </div>
-            </div>
+            </Suspense>
           </div>
         </div>
 
         <div className="panel" style={{ padding: 24, marginBottom: 24 }}>
           <div className="grid-3">
-            <div className="stat-card">
-              <div className="stat-number">{profiles.length}+</div>
-              <div className="stat-label">Profiles</div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-number">1,200+</div>
-              <div className="stat-label">Sources</div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-number">500+</div>
-              <div className="stat-label">Relationships</div>
-            </div>
+            <Suspense fallback={<Loading />}>
+              <div className="stat-card">
+                <div className="stat-number">{profileCount}</div>
+                <div className="stat-label">Profiles</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-number">
+                  {profiles.reduce((sum, p) => sum + (p.sources?.length || 0), 0)}
+                </div>
+                <div className="stat-label">Sources</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-number">
+                  {profiles.reduce((sum, p) => sum + (p.timeline?.length || 0), 0)}
+                </div>
+                <div className="stat-label">Events</div>
+              </div>
+            </Suspense>
           </div>
         </div>
         <div className="grid-hero">
@@ -158,8 +170,9 @@ export default async function HomePage() {
               <Star size={18} />
               <h2 className="section-title" style={{ margin: 0 }}>Featured Profiles</h2>
             </div>
-            <div className="featured-grid">
-              {profiles.slice(0, 4).map((profile, i) => {
+            <Suspense fallback={<Loading />}>
+              <div className="featured-grid">
+                {profiles.slice(0, 4).map((profile, i) => {
                 const featured = i === 0;
                 return (
                   <div 
@@ -478,11 +491,13 @@ export default async function HomePage() {
           </Link>
         </div>
 
-        <div className="grid-3">
-          {profiles.map((profile) => (
-            <ProfileCard key={profile.slug} profile={profile} />
-          ))}
-        </div>
+        <Suspense fallback={<Loading />}>
+          <div className="grid-3">
+            {profiles.map((profile) => (
+              <ProfileCard key={profile.slug} profile={profile} />
+            ))}
+          </div>
+        </Suspense>
       </section>
     </main>
   );
