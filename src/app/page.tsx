@@ -17,6 +17,9 @@ import {
   Mic,
   FileText,
   Landmark,
+  Check,
+  Layers,
+  Scale,
 } from "lucide-react";
 
 export default async function HomePage() {
@@ -149,32 +152,37 @@ export default async function HomePage() {
       </section>
 
       <section className="container" style={{ paddingBottom: 20 }}>
-        <div className="grid-2" style={{ marginBottom: 40 }}>
+        <div className="grid-2" style={{ marginBottom: 40, gap: 24 }}>
           <div className="panel" style={{ padding: 24 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
               <Star size={18} />
               <h2 className="section-title" style={{ margin: 0 }}>Featured Profiles</h2>
             </div>
             <div className="featured-grid">
-              {profiles.slice(0, 4).map((profile, i) => (
-                <div 
-                  key={profile.slug} 
-                  className={`featured-item featured-${i+1}`}
-                >
-                  <ProfileCard 
-                    profile={profile} 
-                    compact 
-                    featured={profile.slug === 'elon-musk'}
-                  />
-                  {i === 0 && (
-                    <div className="featured-banner">
-                      <span className="featured-badge">Editor's Pick</span>
-                      <h3 className="featured-title">{profile.name}</h3>
-                      <p className="featured-description">{profile.short_bio || profile.role || ''}</p>
-                    </div>
-                  )}
-                </div>
-              ))}
+              {profiles.slice(0, 4).map((profile, i) => {
+                const featured = i === 0;
+                return (
+                  <div 
+                    key={profile.slug} 
+                    className={`featured-item ${featured ? 'featured-1' : ''}`}
+                  >
+                    <ProfileCard 
+                      profile={profile} 
+                      compact 
+                      featured={featured}
+                    />
+                    {featured && (
+                      <div className="featured-banner">
+                        <span className="featured-badge">Editor's Pick</span>
+                        <h3 className="featured-title">{profile.name}</h3>
+                        <p className="featured-description">
+                          {profile.shortBio || profile.role || 'Featured profile'}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
 
@@ -379,28 +387,72 @@ export default async function HomePage() {
       </section>
 
       <section className="container" id="trust" style={{ paddingBottom: 40 }}>
-        <div className="grid-2">
+        <div className="grid-2" style={{ gap: 24 }}>
           <div className="panel" style={{ padding: 24 }}>
-            <ShieldCheck size={22} />
-            <h2 className="section-title" style={{ marginTop: 12 }}>
-              Trust layer
-            </h2>
-            <div className="muted" style={{ lineHeight: 1.8 }}>
-              BehindCurtain should never present rumor as fact. Serious claims
-              must be source-linked, statuses must be labeled clearly, and
-              profiles must support corrections, denials, and updates.
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+              <ShieldCheck size={20} />
+              <h2 className="section-title" style={{ margin: 0 }}>Trust Framework</h2>
+            </div>
+            <div style={{ display: 'grid', gap: 16 }}>
+              {[
+                {
+                  icon: <Check size={16} />,
+                  title: 'Source-Linked Claims',
+                  description: 'Every serious claim must be tied to at least one public record, statement, or verified source.'
+                },
+                {
+                  icon: <Scale size={16} />,
+                  title: 'Status Labeling',
+                  description: 'Clear indicators for verified facts, allegations, disputes, and denials.'
+                },
+                {
+                  icon: <Layers size={16} />,
+                  title: 'Correction System',
+                  description: 'Profiles support updates, corrections, and contextual notes from primary sources.'
+                }
+              ].map((item, i) => (
+                <div key={i} style={{ display: 'flex', gap: 12 }}>
+                  <div style={{ flexShrink: 0, marginTop: 2 }}>{item.icon}</div>
+                  <div>
+                    <div style={{ fontWeight: 600, marginBottom: 4 }}>{item.title}</div>
+                    <div className="muted" style={{ lineHeight: 1.6 }}>{item.description}</div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
-          <div className="panel" style={{ padding: 24 }} id="launch">
-            <Sparkles size={22} />
-            <h2 className="section-title" style={{ marginTop: 12 }}>
-              Launch path
-            </h2>
-            <div className="muted" style={{ lineHeight: 1.8 }}>
-              Ship a strong landing page, explorer, and profile system first.
-              Then connect Supabase, add admin ingestion, and expand into
-              search, graph views, and monitoring.
+          <div className="panel" style={{ padding: 24 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+              <Sparkles size={20} />
+              <h2 className="section-title" style={{ margin: 0 }}>Research Workflows</h2>
+            </div>
+            <div style={{ display: 'grid', gap: 16 }}>
+              {[
+                {
+                  icon: <FileSearch size={16} />,
+                  title: 'Timeline Analysis',
+                  description: 'Reconstruct sequences of events with source-backed claims and status indicators.'
+                },
+                {
+                  icon: <Network size={16} />,
+                  title: 'Relationship Mapping',
+                  description: 'Visualize connections between people, organizations, and events.'
+                },
+                {
+                  icon: <Database size={16} />,
+                  title: 'Evidence Library',
+                  description: 'Centralized access to all source materials with metadata and context.'
+                }
+              ].map((item, i) => (
+                <div key={i} style={{ display: 'flex', gap: 12 }}>
+                  <div style={{ flexShrink: 0, marginTop: 2 }}>{item.icon}</div>
+                  <div>
+                    <div style={{ fontWeight: 600, marginBottom: 4 }}>{item.title}</div>
+                    <div className="muted" style={{ lineHeight: 1.6 }}>{item.description}</div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
