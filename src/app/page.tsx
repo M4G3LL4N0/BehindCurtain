@@ -268,6 +268,81 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Platform Stack Section */}
+      <section className="container" style={{ paddingBottom: 40 }}>
+        <div className="panel" style={{ padding: 24 }}>
+          <div className="kicker">Core Features</div>
+          <h2 className="section-title">Platform Stack</h2>
+          <p className="muted" style={{ marginBottom: 24, lineHeight: 1.7 }}>
+            BehindCurtain combines structured data, source verification, and relationship mapping into a unified intelligence platform.
+          </p>
+
+          <div className="grid-3" style={{ gap: 16 }}>
+            {[
+              {
+                icon: <File size={18} />,
+                title: "Verified Profiles",
+                description: "Structured records with source-linked details and verification status"
+              },
+              {
+                icon: <Timeline size={18} />,
+                title: "Event Timelines",
+                description: "Chronological sequences with claim status indicators and source citations"
+              },
+              {
+                icon: <LinkIcon size={18} />,
+                title: "Source Verification",
+                description: "Every claim requires at least one public record, statement, or verified source"
+              },
+              {
+                icon: <Users size={18} />,
+                title: "Relationship Mapping",
+                description: "Visualize connections with labeled relationship types and evidence"
+              },
+              {
+                icon: <SearchIcon size={18} />,
+                title: "Cross-Profile Search",
+                description: "Find connections across people, organizations, and events"
+              },
+              {
+                icon: <Verified size={18} />,
+                title: "Claim Classification",
+                description: "Clear status labels: verified facts, allegations, disputes, and denials"
+              },
+              {
+                icon: <ShieldCheck size={18} />,
+                title: "Trust Framework",
+                description: "Multi-step verification process with source quality ratings"
+              },
+              {
+                icon: <Layers size={18} />,
+                title: "Evidence Stack",
+                description: "View all supporting materials in context with metadata"
+              }
+            ].map((item, i) => (
+              <div
+                key={item.title}
+                className="panel"
+                style={{
+                  padding: 20,
+                  border: "1px solid var(--line)",
+                  borderRadius: 16,
+                  background: "rgba(255,255,255,0.025)"
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+                  {item.icon}
+                  <div style={{ fontWeight: 700 }}>{item.title}</div>
+                </div>
+                <div className="muted" style={{ lineHeight: 1.6 }}>
+                  {item.description}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="container" style={{ paddingBottom: 20 }}>
         <div className="grid-2" style={{ marginBottom: 40, gap: 24 }}>
           <div className="panel" style={{ padding: 24 }}>
@@ -750,6 +825,63 @@ export default async function HomePage() {
         </div>
       </section>
 
+
+      {/* Trust Framework Section */}
+      <section className="container" id="trust" style={{ paddingBottom: 80 }}>
+        <div className="panel" style={{ padding: 24 }}>
+          <div className="grid-2" style={{ gap: 24 }}>
+            <div>
+              <div className="kicker">Trust Framework</div>
+              <h2 className="section-title">Verified Intelligence</h2>
+              <p className="muted" style={{ lineHeight: 1.7, marginBottom: 24 }}>
+                BehindCurtain uses a rigorous trust framework to ensure information quality:
+              </p>
+              <div style={{ display: "grid", gap: 16, marginBottom: 24 }}>
+                <div style={{ display: "flex", gap: 12 }}>
+                  <Verified size={18} />
+                  <div>
+                    <div style={{ fontWeight: 600 }}>Source-Linked Claims</div>
+                    <div className="muted">Every claim requires at least one public record, statement, or verified source</div>
+                  </div>
+                </div>
+                <div style={{ display: "flex", gap: 12 }}>
+                  <Scale size={18} />
+                  <div>
+                    <div style={{ fontWeight: 600 }}>Status Labeling</div>
+                    <div className="muted">Clear indicators for verified facts, allegations, disputes, and denials</div>
+                  </div>
+                </div>
+                <div style={{ display: "flex", gap: 12 }}>
+                  <Layers size={18} />
+                  <div>
+                    <div style={{ fontWeight: 600 }}>Evidence Stack</div>
+                    <div className="muted">View all supporting materials in context with metadata</div>
+                  </div>
+                </div>
+              </div>
+              <Link href="/explorer" className="btn btn-primary">
+                Explore Verified Profiles
+              </Link>
+            </div>
+            <div className="grid-2" style={{ gap: 16 }}>
+              <div className="stat-card">
+                <div className="stat-number">100%</div>
+                <div className="stat-label">Source-Linked</div>
+                <div className="muted" style={{ fontSize: 12, marginTop: 4 }}>
+                  Every claim has evidence
+                </div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-number">3x</div>
+                <div className="stat-label">Verified</div>
+                <div className="muted" style={{ fontSize: 12, marginTop: 4 }}>
+                  Cross-checked sources
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Call to Action Section */}
       <section className="container" style={{ paddingBottom: 80 }}>
