@@ -679,35 +679,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Methodology Section */}
-      <section className="container" style={{ paddingBottom: 40 }}>
-        <div className="panel" style={{ padding: 24 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-            <Bookmark size={20} />
-            <h2 className="section-title" style={{ margin: 0 }}>Our Methodology</h2>
-          </div>
-          <div style={{ display: 'grid', gap: 24 }}>
-            <div>
-              <h3 className="card-title" style={{ marginBottom: 12 }}>Source Classification</h3>
-              <div className="muted" style={{ lineHeight: 1.7 }}>
-                We categorize sources into primary, secondary, and tertiary levels based on their proximity to the information and reliability. Primary sources include official records and direct statements, while secondary sources include verified reporting and expert analysis.
-              </div>
-            </div>
-            <div>
-              <h3 className="card-title" style={{ marginBottom: 12 }}>Claim Verification</h3>
-              <div className="muted" style={{ lineHeight: 1.7 }}>
-                Each claim undergoes a multi-step verification process including source evaluation, cross-referencing, and expert review. Claims are labeled with their verification status and supporting evidence.
-              </div>
-            </div>
-            <div>
-              <h3 className="card-title" style={{ marginBottom: 12 }}>Fact vs Allegation</h3>
-              <div className="muted" style={{ lineHeight: 1.7 }}>
-                We clearly distinguish between verified facts and allegations. Facts require multiple independent sources, while allegations are labeled as unproven claims requiring further investigation.
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Call to Action Section */}
       <section className="container" style={{ paddingBottom: 80 }}>
@@ -717,8 +688,22 @@ export default async function HomePage() {
               <div className="kicker">Start Exploring</div>
               <h2 className="section-title">Understand the Full Picture</h2>
               <p className="muted" style={{ lineHeight: 1.7, marginBottom: 24 }}>
-                Dive into verified profiles, source-backed timelines, and relationship maps to uncover the truth behind public figures and organizations.
+                BehindCurtain helps you navigate complex public information through:
               </p>
+              <div style={{ display: 'grid', gap: 12, marginBottom: 24 }}>
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                  <Verified size={16} />
+                  <span>Verified profiles with source-linked details</span>
+                </div>
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                  <Timeline size={16} />
+                  <span>Chronological event timelines</span>
+                </div>
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                  <LinkIcon size={16} />
+                  <span>Clear source citations for every claim</span>
+                </div>
+              </div>
               <Link href="/explorer" className="btn btn-primary">
                 Explore Profiles <ArrowRight size={16} />
               </Link>
