@@ -38,37 +38,58 @@ export default async function HomePage() {
       <Header />
 
       <section className="container" style={{ paddingTop: 20, paddingBottom: 20 }}>
-        <div className="panel" style={{ padding: 16, marginBottom: 24 }}>
+        <div className="panel" style={{ padding: 24, marginBottom: 24 }}>
           <div style={{ position: 'relative' }}>
-            <Search size={18} style={{ 
-              position: 'absolute',
-              left: 16,
-              top: '50%',
-              transform: 'translateY(-50%)',
-              color: 'var(--muted)'
-            }} />
-            <input 
-              type="search" 
-              className="input" 
-              placeholder="Search profiles, organizations, events..."
-              style={{ paddingLeft: 44 }}
-            />
-            <div className="search-dropdown">
-              {recentProfiles.length > 0 ? (
-                recentProfiles.map((profile) => (
-                  <Link 
-                    key={profile.slug}
-                    href={`/profiles/${profile.slug}`}
-                    className="search-dropdown-item"
-                  >
-                    <span className="muted">Profile:</span> {profile.name}
-                  </Link>
-                ))
-              ) : (
-                <div className="search-dropdown-item">
-                  No profiles found
-                </div>
-              )}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+              <Search size={20} />
+              <h2 className="section-title" style={{ margin: 0 }}>Discover Profiles & Sources</h2>
+            </div>
+            <div style={{ position: 'relative' }}>
+              <Search size={18} style={{ 
+                position: 'absolute',
+                left: 16,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                color: 'var(--muted)'
+              }} />
+              <input 
+                type="search" 
+                className="input" 
+                placeholder="Search people, organizations, events, or sources..."
+                style={{ paddingLeft: 44 }}
+              />
+              <div className="search-dropdown">
+                {recentProfiles.length > 0 ? (
+                  <>
+                    <div className="search-dropdown-header">
+                      <span className="muted">Recent Profiles</span>
+                    </div>
+                    {recentProfiles.map((profile) => (
+                      <Link 
+                        key={profile.slug}
+                        href={`/profiles/${profile.slug}`}
+                        className="search-dropdown-item"
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                          <span style={{ fontWeight: 600 }}>{profile.name}</span>
+                          {profile.role && (
+                            <span className="muted" style={{ fontSize: 13 }}>{profile.role}</span>
+                          )}
+                        </div>
+                      </Link>
+                    ))}
+                    <div className="search-dropdown-footer">
+                      <Link href="/explorer" className="btn btn-secondary" style={{ width: '100%' }}>
+                        View all profiles
+                      </Link>
+                    </div>
+                  </>
+                ) : (
+                  <div className="search-dropdown-item">
+                    <span className="muted">No recent profiles found</span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -78,19 +99,28 @@ export default async function HomePage() {
             <Suspense fallback={<Loading />}>
               <div className="stat-card">
                 <div className="stat-number">{profileCount}</div>
-                <div className="stat-label">Profiles</div>
+                <div className="stat-label">Verified Profiles</div>
+                <div className="muted" style={{ fontSize: 12, marginTop: 4 }}>
+                  People & organizations
+                </div>
               </div>
               <div className="stat-card">
                 <div className="stat-number">
                   {profiles.reduce((sum, p) => sum + (p.sources?.length || 0), 0)}
                 </div>
-                <div className="stat-label">Sources</div>
+                <div className="stat-label">Cited Sources</div>
+                <div className="muted" style={{ fontSize: 12, marginTop: 4 }}>
+                  Documents & records
+                </div>
               </div>
               <div className="stat-card">
                 <div className="stat-number">
                   {profiles.reduce((sum, p) => sum + (p.timeline?.length || 0), 0)}
                 </div>
-                <div className="stat-label">Events</div>
+                <div className="stat-label">Tracked Events</div>
+                <div className="muted" style={{ fontSize: 12, marginTop: 4 }}>
+                  With status labels
+                </div>
               </div>
             </Suspense>
           </div>
@@ -98,14 +128,14 @@ export default async function HomePage() {
         <div className="grid-hero">
           <div className="panel" style={{ padding: 30 }}>
             <div className="kicker">Source-linked intelligence platform</div>
-            <h1 className="big-title">See what’s behind the story.</h1>
+            <h1 className="big-title">Understand the full picture.</h1>
             <p
               className="muted"
               style={{ fontSize: 18, lineHeight: 1.7, maxWidth: 760 }}
             >
-              BehindCurtain turns fragmented public information into structured
-              timelines, source-backed profiles, and relationship maps for
-              understanding people, power, and events.
+              BehindCurtain structures public information into verified profiles, 
+              source-backed timelines, and relationship maps - with clear 
+              distinctions between facts, allegations, and public statements.
             </p>
 
             <div
