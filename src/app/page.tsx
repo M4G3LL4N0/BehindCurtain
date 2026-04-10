@@ -53,10 +53,12 @@ export default async function HomePage() {
                 color: 'var(--muted)'
               }} />
               <input 
-                type="search" 
-                className="input" 
-                placeholder="Search people, organizations, events, or sources..."
+                type="search"
+                className="input"
+                placeholder="Search verified profiles, sources, and events..."
                 style={{ paddingLeft: 44 }}
+                aria-label="Search verified profiles, sources, and events"
+                enterKeyHint="search"
               />
               <div className="search-dropdown">
                 {recentProfiles.length > 0 ? (
@@ -213,6 +215,7 @@ export default async function HomePage() {
                 const featured = i === 0;
                 const sourceCount = profile.sources?.length || 0;
                 const eventCount = profile.timeline?.length || 0;
+                const tags = profile.tags?.slice(0, 3) || [];
                 
                 return (
                   <div 
@@ -241,6 +244,16 @@ export default async function HomePage() {
                             <span>{eventCount} events</span>
                           </div>
                         </div>
+                        <div className="flex gap-2 mt-3 flex-wrap">
+                          {tags.map((tag) => (
+                            <span 
+                              key={tag}
+                              className="badge"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     )}
                     {!featured && (
@@ -257,6 +270,18 @@ export default async function HomePage() {
                             <span>{eventCount}</span>
                           </div>
                         </div>
+                        {tags.length > 0 && (
+                          <div className="flex gap-2 mt-2 flex-wrap">
+                            {tags.map((tag) => (
+                              <span 
+                                key={tag}
+                                className="badge"
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
@@ -476,6 +501,36 @@ export default async function HomePage() {
       </section>
 
       <section className="container" id="trust" style={{ paddingBottom: 40 }}>
+        <div className="panel" style={{ padding: 24, marginBottom: 24 }}>
+          <div className="grid-2" style={{ gap: 24 }}>
+            <div>
+              <div className="kicker">Trust & Provenance</div>
+              <h2 className="section-title">Verified Intelligence</h2>
+              <p className="muted" style={{ lineHeight: 1.7, marginBottom: 24 }}>
+                BehindCurtain distinguishes between facts, allegations, and statements with clear sourcing and verification. Every claim is tied to its evidence.
+              </p>
+              <Link href="/explorer" className="btn btn-primary">
+                Explore Verified Profiles
+              </Link>
+            </div>
+            <div className="grid-2" style={{ gap: 16 }}>
+              <div className="stat-card">
+                <div className="stat-number">100%</div>
+                <div className="stat-label">Source-Linked</div>
+                <div className="muted" style={{ fontSize: 12, marginTop: 4 }}>
+                  Every claim has evidence
+                </div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-number">3x</div>
+                <div className="stat-label">Verified</div>
+                <div className="muted" style={{ fontSize: 12, marginTop: 4 }}>
+                  Cross-checked sources
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="grid-2" style={{ gap: 24 }}>
           <div className="panel" style={{ padding: 24 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>

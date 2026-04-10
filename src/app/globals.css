@@ -178,6 +178,21 @@ a {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 16px;
+  margin: -8px;
+}
+
+.featured-grid > * {
+  margin: 8px;
+}
+
+.featured-banner {
+  z-index: 1;
+}
+
+.featured-summary {
+  z-index: 1;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
 }
 
 .source-card {
