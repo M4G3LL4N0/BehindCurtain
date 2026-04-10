@@ -211,6 +211,9 @@ export default async function HomePage() {
             <div className="featured-grid">
               {profiles.slice(0, 4).map((profile, i) => {
                 const featured = i === 0;
+                const sourceCount = profile.sources?.length || 0;
+                const eventCount = profile.timeline?.length || 0;
+                
                 return (
                   <div 
                     key={profile.slug} 
@@ -228,6 +231,32 @@ export default async function HomePage() {
                         <p className="featured-description">
                           {profile.shortBio || profile.role || 'Featured profile'}
                         </p>
+                        <div className="featured-stats">
+                          <div className="featured-stat">
+                            <FileText size={14} />
+                            <span>{sourceCount} sources</span>
+                          </div>
+                          <div className="featured-stat">
+                            <Clock size={14} />
+                            <span>{eventCount} events</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    {!featured && (
+                      <div className="featured-summary">
+                        <h4 className="featured-name">{profile.name}</h4>
+                        <div className="featured-meta">
+                          {profile.role && (
+                            <span className="featured-role">{profile.role}</span>
+                          )}
+                          <div className="featured-stats">
+                            <FileText size={12} />
+                            <span>{sourceCount}</span>
+                            <Clock size={12} />
+                            <span>{eventCount}</span>
+                          </div>
+                        </div>
                       </div>
                     )}
                   </div>
