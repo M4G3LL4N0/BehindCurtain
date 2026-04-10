@@ -44,21 +44,27 @@ export default async function HomePage() {
               color: 'var(--muted)'
             }} />
             <input 
-              type="text" 
+              type="search" 
               className="input" 
               placeholder="Search profiles, organizations, events..."
               style={{ paddingLeft: 44 }}
             />
             <div className="search-dropdown">
-              {recentProfiles.map((profile) => (
-                <Link 
-                  key={profile.slug}
-                  href={`/profiles/${profile.slug}`}
-                  className="search-dropdown-item"
-                >
-                  <span className="muted">Profile:</span> {profile.name}
-                </Link>
-              ))}
+              {recentProfiles.length > 0 ? (
+                recentProfiles.map((profile) => (
+                  <Link 
+                    key={profile.slug}
+                    href={`/profiles/${profile.slug}`}
+                    className="search-dropdown-item"
+                  >
+                    <span className="muted">Profile:</span> {profile.name}
+                  </Link>
+                ))
+              ) : (
+                <div className="search-dropdown-item">
+                  No profiles found
+                </div>
+              )}
             </div>
           </div>
         </div>
