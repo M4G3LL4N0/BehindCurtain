@@ -1,4 +1,11 @@
 import Link from "next/link";
+import { HeroSection } from "@/components/home/HeroSection";
+import { TrustFrameworkSection } from "@/components/home/TrustFrameworkSection";
+import { FeaturedProfilesSection } from "@/components/home/FeaturedProfilesSection";
+import { RecentUpdatesSection } from "@/components/home/RecentUpdatesSection"; 
+import { MethodologySection } from "@/components/home/MethodologySection";
+import { ProfilePreviewSection } from "@/components/home/ProfilePreviewSection";
+import { CallToActionSection } from "@/components/home/CallToActionSection";
 import Header from "@/components/header";
 import ProfileCard from "@/components/profile-card";
 import { getAllProfiles } from "@/lib/db";
@@ -809,6 +816,30 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+    </main>
+  );
+
+  return (
+    <main>
+      <Header />
+
+      <HeroSection 
+        profileCount={profileCount}
+        profiles={profiles}
+        recentProfiles={recentProfiles} 
+      />
+
+      <TrustFrameworkSection />
+
+      <FeaturedProfilesSection profiles={profiles} />
+      
+      <RecentUpdatesSection />
+
+      <MethodologySection />
+
+      <ProfilePreviewSection profiles={profiles} />
+
+      <CallToActionSection />
     </main>
   );
 }
