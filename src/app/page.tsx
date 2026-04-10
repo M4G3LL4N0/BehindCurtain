@@ -32,7 +32,17 @@ import {
   AlertCircle,
   Bookmark,
   FileCheck,
-  Sparkles 
+  Sparkles,
+  File,
+  Timeline,
+  Link as LinkIcon,
+  Search as SearchIcon,
+  Book,
+  Users,
+  FilePlus,
+  FileMinus,
+  FileInput,
+  FileOutput
 } from "lucide-react";
 
 export default async function HomePage() {
@@ -184,14 +194,34 @@ export default async function HomePage() {
             </div>
             <div style={{ display: "grid", gap: 14 }}>
               {[
-                ["Profile system", "Structured people and entity records"],
-                ["Timeline engine", "Chronology with claim classification"],
-                ["Source layer", "Every serious claim tied to evidence"],
-                ["Relationship graph", "Understand who connects to what"],
-                ["Research mode", "Fast discovery for journalists and creators"],
-              ].map(([title, body]) => (
+                {
+                  icon: <File size={18} />,
+                  title: "Profile System",
+                  description: "Structured records for people and organizations with verified details"
+                },
+                {
+                  icon: <Timeline size={18} />,
+                  title: "Timeline Engine",
+                  description: "Chronological events with claim status and source links"
+                },
+                {
+                  icon: <LinkIcon size={18} />,
+                  title: "Source Layer",
+                  description: "Every claim tied to public records, statements, or verified sources"
+                },
+                {
+                  icon: <Users size={18} />,
+                  title: "Relationship Graph",
+                  description: "Visualize connections between people, organizations, and events"
+                },
+                {
+                  icon: <SearchIcon size={18} />,
+                  title: "Research Tools",
+                  description: "Advanced discovery and analysis for journalists and researchers"
+                }
+              ].map((item, i) => (
                 <div
-                  key={title}
+                  key={item.title}
                   style={{
                     border: "1px solid rgba(255,255,255,0.08)",
                     borderRadius: 18,
@@ -199,9 +229,12 @@ export default async function HomePage() {
                     background: "rgba(255,255,255,0.025)",
                   }}
                 >
-                  <div style={{ fontWeight: 700, marginBottom: 6 }}>{title}</div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+                    {item.icon}
+                    <div style={{ fontWeight: 700 }}>{item.title}</div>
+                  </div>
                   <div className="muted" style={{ lineHeight: 1.6 }}>
-                    {body}
+                    {item.description}
                   </div>
                 </div>
               ))}
@@ -511,11 +544,34 @@ export default async function HomePage() {
         <div className="panel" style={{ padding: 24, marginBottom: 24 }}>
           <div className="grid-2" style={{ gap: 24 }}>
             <div>
-              <div className="kicker">Trust & Provenance</div>
+              <div className="kicker">Trust Framework</div>
               <h2 className="section-title">Verified Intelligence</h2>
               <p className="muted" style={{ lineHeight: 1.7, marginBottom: 24 }}>
-                BehindCurtain distinguishes between facts, allegations, and statements with clear sourcing and verification. Every claim is tied to its evidence.
+                BehindCurtain uses a rigorous trust framework to distinguish between:
               </p>
+              <div style={{ display: "grid", gap: 16, marginBottom: 24 }}>
+                <div style={{ display: "flex", gap: 12 }}>
+                  <Verified size={18} />
+                  <div>
+                    <div style={{ fontWeight: 600 }}>Verified Facts</div>
+                    <div className="muted">Supported by multiple independent sources</div>
+                  </div>
+                </div>
+                <div style={{ display: "flex", gap: 12 }}>
+                  <AlertCircle size={18} />
+                  <div>
+                    <div style={{ fontWeight: 600 }}>Allegations</div>
+                    <div className="muted">Unproven claims requiring investigation</div>
+                  </div>
+                </div>
+                <div style={{ display: "flex", gap: 12 }}>
+                  <FileText size={18} />
+                  <div>
+                    <div style={{ fontWeight: 600 }}>Public Statements</div>
+                    <div className="muted">Official positions from individuals/organizations</div>
+                  </div>
+                </div>
+              </div>
               <Link href="/explorer" className="btn btn-primary">
                 Explore Verified Profiles
               </Link>
