@@ -14,14 +14,6 @@ import {
   Search,
   Clock,
   Star,
-  BookOpen,
-  Gavel,
-  Mic,
-  FileText,
-  Landmark,
-  Check,
-  Layers,
-  Scale,
 } from "lucide-react";
 
 export default async function HomePage() {
@@ -59,9 +51,7 @@ export default async function HomePage() {
                   <span className="muted">Profile:</span> {profile.name}
                 </Link>
               ))}
-                })}
-              </div>
-            </Suspense>
+            </div>
           </div>
         </div>
 
@@ -198,6 +188,41 @@ export default async function HomePage() {
               })}
             </div>
           </div>
+        </div>
+
+        <div className="grid-2" style={{ marginBottom: 40, gap: 24 }}>
+          <div className="panel" style={{ padding: 24 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+              <Star size={18} />
+              <h2 className="section-title" style={{ margin: 0 }}>Featured Profiles</h2>
+            </div>
+            <div className="featured-grid">
+              {profiles.slice(0, 4).map((profile, i) => {
+                const featured = i === 0;
+                return (
+                  <div 
+                    key={profile.slug} 
+                    className={`featured-item ${featured ? 'featured-1' : ''}`}
+                  >
+                    <ProfileCard 
+                      profile={profile} 
+                      compact 
+                      featured={featured}
+                    />
+                    {featured && (
+                      <div className="featured-banner">
+                        <span className="featured-badge">Editor's Pick</span>
+                        <h3 className="featured-title">{profile.name}</h3>
+                        <p className="featured-description">
+                          {profile.shortBio || profile.role || 'Featured profile'}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
 
           <div className="panel" style={{ padding: 24 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
@@ -277,7 +302,7 @@ export default async function HomePage() {
           </div>
         </div>
 
-        <div className="grid-2" style={{ marginBottom: 40 }}>
+        <div className="grid-2" style={{ marginBottom: 40, gap: 24 }}>
           <div className="panel" style={{ padding: 24 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
               <FileSearch size={18} />
