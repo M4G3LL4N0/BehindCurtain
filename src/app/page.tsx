@@ -11,18 +11,18 @@ import ProfileCard from "@/components/profile-card";
 import { getAllProfiles } from "@/lib/db";
 import { Suspense } from "react";
 import Loading from "@/components/loading";
-import {
-  ArrowRight,
-  Database,
-  Network,
-  ShieldCheck,
+import { 
+  ArrowRight, 
+  Database, 
+  Network, 
+  ShieldCheck, 
   FileSearch,
   Search,
   Clock,
   Star,
   Gavel,
   FileText,
-  BookOpen,
+  BookOpen, 
   Mic,
   Landmark,
   Check,
@@ -31,7 +31,8 @@ import {
   Verified,
   AlertCircle,
   Bookmark,
-  FileCheck
+  FileCheck,
+  Sparkles 
 } from "lucide-react";
 
 export default async function HomePage() {
