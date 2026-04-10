@@ -21,7 +21,11 @@ import {
   Landmark,
   Check,
   Scale,
-  Layers
+  Layers,
+  Verified,
+  AlertCircle,
+  Bookmark,
+  FileCheck
 } from "lucide-react";
 
 export default async function HomePage() {
@@ -287,36 +291,7 @@ export default async function HomePage() {
               <h2 className="section-title" style={{ margin: 0 }}>Featured Sources</h2>
             </div>
             <div className="featured-grid">
-              {[
-                {
-                  title: "SEC Filing: Tesla Q4 Earnings",
-                  type: "court_filing",
-                  date: "2026-01-25",
-                  profile: "Elon Musk",
-                  href: "#"
-                },
-                {
-                  title: "Interview with WSJ",
-                  type: "interview",
-                  date: "2026-02-10",
-                  profile: "Sam Altman",
-                  href: "#"
-                },
-                {
-                  title: "OpenAI Board Statement",
-                  type: "official_statement",
-                  date: "2026-03-15",
-                  profile: "OpenAI",
-                  href: "#"
-                },
-                {
-                  title: "DOJ Investigation Report",
-                  type: "public_record",
-                  date: "2026-03-20",
-                  profile: "Elon Musk",
-                  href: "#"
-                }
-              ].map((source, i) => (
+              {profiles.flatMap(p => p.sources).slice(0, 4).map((source, i) => (
                 <div key={i} className="source-card">
                   <div className="meta-row" style={{ marginBottom: 8 }}>
                     <span className="badge">{source.type.replace('_', ' ')}</span>
@@ -331,6 +306,45 @@ export default async function HomePage() {
                   >
                     {source.profile} →
                   </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="panel" style={{ padding: 24 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+              <Verified size={18} />
+              <h2 className="section-title" style={{ margin: 0 }}>Claim Classification</h2>
+            </div>
+            <div style={{ display: 'grid', gap: 16 }}>
+              {[
+                {
+                  icon: <Verified size={16} />,
+                  title: 'Verified Facts',
+                  description: 'Claims supported by multiple independent, credible sources'
+                },
+                {
+                  icon: <AlertCircle size={16} />,
+                  title: 'Allegations',
+                  description: 'Unproven claims requiring further investigation'
+                },
+                {
+                  icon: <Bookmark size={16} />,
+                  title: 'Public Statements',
+                  description: 'Official statements from individuals or organizations'
+                },
+                {
+                  icon: <FileCheck size={16} />,
+                  title: 'Legal Records',
+                  description: 'Court filings, government documents, and official records'
+                }
+              ].map((item, i) => (
+                <div key={i} style={{ display: 'flex', gap: 12 }}>
+                  <div style={{ flexShrink: 0, marginTop: 2 }}>{item.icon}</div>
+                  <div>
+                    <div style={{ fontWeight: 600, marginBottom: 4 }}>{item.title}</div>
+                    <div className="muted" style={{ lineHeight: 1.6 }}>{item.description}</div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -425,6 +439,11 @@ export default async function HomePage() {
                   icon: <Layers size={16} />,
                   title: 'Correction System',
                   description: 'Profiles support updates, corrections, and contextual notes from primary sources.'
+                },
+                {
+                  icon: <Verified size={16} />,
+                  title: 'Verification Process',
+                  description: 'Multi-step verification for sources and claims, including cross-referencing and expert review.'
                 }
               ].map((item, i) => (
                 <div key={i} style={{ display: 'flex', gap: 12 }}>
@@ -459,6 +478,11 @@ export default async function HomePage() {
                   icon: <Database size={16} />,
                   title: 'Evidence Library',
                   description: 'Centralized access to all source materials with metadata and context.'
+                },
+                {
+                  icon: <FileCheck size={16} />,
+                  title: 'Source Verification',
+                  description: 'Track the verification status of each source and claim.'
                 }
               ].map((item, i) => (
                 <div key={i} style={{ display: 'flex', gap: 12 }}>
@@ -469,6 +493,35 @@ export default async function HomePage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="container" style={{ paddingBottom: 40 }}>
+        <div className="panel" style={{ padding: 24 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+            <Bookmark size={20} />
+            <h2 className="section-title" style={{ margin: 0 }}>Methodology</h2>
+          </div>
+          <div style={{ display: 'grid', gap: 24 }}>
+            <div>
+              <h3 className="card-title" style={{ marginBottom: 12 }}>Source Classification</h3>
+              <div className="muted" style={{ lineHeight: 1.7 }}>
+                We categorize sources into primary, secondary, and tertiary levels based on their proximity to the information and reliability. Primary sources include official records and direct statements, while secondary sources include verified reporting and expert analysis.
+              </div>
+            </div>
+            <div>
+              <h3 className="card-title" style={{ marginBottom: 12 }}>Claim Verification</h3>
+              <div className="muted" style={{ lineHeight: 1.7 }}>
+                Each claim undergoes a multi-step verification process including source evaluation, cross-referencing, and expert review. Claims are labeled with their verification status and supporting evidence.
+              </div>
+            </div>
+            <div>
+              <h3 className="card-title" style={{ marginBottom: 12 }}>Fact vs Allegation</h3>
+              <div className="muted" style={{ lineHeight: 1.7 }}>
+                We clearly distinguish between verified facts and allegations. Facts require multiple independent sources, while allegations are labeled as unproven claims requiring further investigation.
+              </div>
             </div>
           </div>
         </div>
