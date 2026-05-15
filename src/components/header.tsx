@@ -1,7 +1,25 @@
+"use client";
+
 import Link from "next/link";
-import { Search, Shield, Sparkles } from "lucide-react";
+import { Menu, Search, Shield, Sparkles, X } from "lucide-react";
+import { useEffect, useState } from "react";
+
+const links = [
+  { href: "/explorer", label: "Explorer", icon: Search, primary: false },
+  { href: "/#trust", label: "Trust", icon: Shield, primary: false },
+  { href: "/#launch", label: "Launch MVP", icon: Sparkles, primary: true },
+];
 
 export default function Header() {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
   return (
     <header className="container" style={{ paddingTop: 24, paddingBottom: 16 }}>
       <div
@@ -15,7 +33,7 @@ export default function Header() {
           flexWrap: "wrap",
         }}
       >
-        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 12 }} onClick={() => setOpen(false)}>
           <div
             style={{
               width: 42,
@@ -39,23 +57,65 @@ export default function Header() {
           </div>
         </Link>
 
-        <nav style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-          <Link className="btn btn-secondary" href="/explorer">
-            <Search size={16} />
-            Explorer
-          </Link>
-
-          <a className="btn btn-secondary" href="#trust">
-            <Shield size={16} />
-            Trust
-          </a>
-
-          <a className="btn btn-primary" href="#launch">
-            <Sparkles size={16} />
-            Launch MVP
-          </a>
+        <nav className="hidden items-center gap-2 md:flex" aria-label="Primary">
+          {links.map((item) => {
+            const Icon = item.icon;
+            const className = item.primary ? "btn btn-primary" : "btn btn-secondary";
+            if (item.href.startsWith("/#")) {
+              return (
+                <a key={item.href} className={className} href={item.href}>
+                  <Icon size={16} />
+                  {item.label}
+                </a>
+              );
+            }
+            return (
+              <Link key={item.href} className={className} href={item.href}>
+                <Icon size={16} />
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
+
+        <button
+          type="button"
+          className="btn btn-secondary md:hidden"
+          aria-expanded={open}
+          aria-controls="behindcurtain-mobile-nav"
+          onClick={() => setOpen((v) => !v)}
+        >
+          {open ? <X size={18} /> : <Menu size={18} />}
+          <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
+        </button>
       </div>
+
+      {open && (
+        <nav
+          id="behindcurtain-mobile-nav"
+          className="panel mt-3 flex flex-col gap-2 p-4 md:hidden"
+          aria-label="Mobile"
+        >
+          {links.map((item) => {
+            const Icon = item.icon;
+            const className = item.primary ? "btn btn-primary w-full justify-center" : "btn btn-secondary w-full justify-center";
+            if (item.href.startsWith("/#")) {
+              return (
+                <a key={item.href} className={className} href={item.href} onClick={() => setOpen(false)}>
+                  <Icon size={16} />
+                  {item.label}
+                </a>
+              );
+            }
+            return (
+              <Link key={item.href} className={className} href={item.href} onClick={() => setOpen(false)}>
+                <Icon size={16} />
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
+      )}
     </header>
   );
 }
