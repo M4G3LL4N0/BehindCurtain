@@ -9,6 +9,9 @@ import { getAllProfiles } from "@/lib/db";
 export default function ExplorerPage() {
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [query, setQuery] = useState("");
+  const [selectedTag, setSelectedTag] = useState("all");
+  const [selectedRegion, setSelectedRegion] = useState("all");
+  const [selectedStatus, setSelectedStatus] = useState("all");
 
   useEffect(() => {
     let isMounted = true;
@@ -28,24 +31,36 @@ export default function ExplorerPage() {
   }, []);
 
   const [debouncedQuery, setDebouncedQuery] = useState("");
-  const [isSearching, setIsSearching] = useState(false);
 
   // Debounce search input
   useEffect(() => {
-    setIsSearching(true);
     const handler = setTimeout(() => {
       setDebouncedQuery(query.trim().toLowerCase());
-      setIsSearching(false);
     }, 300);
 
     return () => clearTimeout(handler);
   }, [query]);
 
-  const filtered = useMemo(() => {
-    if (!debouncedQuery) return profiles;
+  const tags = useMemo(
+    () => Array.from(new Set(profiles.flatMap((profile) => profile.tags))).sort(),
+    [profiles],
+  );
 
+  const regions = useMemo(
+    () => Array.from(new Set(profiles.map((profile) => profile.region).filter(Boolean))).sort(),
+    [profiles],
+  );
+
+  const statuses = useMemo(
+    () =>
+      Array.from(
+        new Set(profiles.flatMap((profile) => profile.timeline.map((event) => event.status))),
+      ).sort(),
+    [profiles],
+  );
+
+  const filtered = useMemo(() => {
     return profiles.filter((profile) => {
-      // Basic fields to search
       const basicFields = [
         profile.name,
         profile.role,
@@ -65,13 +80,27 @@ export default function ExplorerPage() {
         source.title.toLowerCase().includes(debouncedQuery)
       );
 
-      return (
+      const matchesQuery =
+        !debouncedQuery ||
         basicFields.includes(debouncedQuery) ||
         timelineMatches ||
-        sourceMatches
-      );
+        sourceMatches;
+      const matchesTag = selectedTag === "all" || profile.tags.includes(selectedTag);
+      const matchesRegion = selectedRegion === "all" || profile.region === selectedRegion;
+      const matchesStatus =
+        selectedStatus === "all" ||
+        profile.timeline.some((event) => event.status === selectedStatus);
+
+      return matchesQuery && matchesTag && matchesRegion && matchesStatus;
     });
-  }, [profiles, debouncedQuery]);
+  }, [profiles, debouncedQuery, selectedTag, selectedRegion, selectedStatus]);
+
+  const hasActiveFilters =
+    Boolean(debouncedQuery) ||
+    selectedTag !== "all" ||
+    selectedRegion !== "all" ||
+    selectedStatus !== "all";
+  const isSearching = query.trim().toLowerCase() !== debouncedQuery;
 
   return (
     <main>
@@ -85,8 +114,12 @@ export default function ExplorerPage() {
             This MVP explorer is the first layer of BehindCurtain: premium profile pages,
             source-backed timelines, and relationship context.
           </p>
+          <p className="muted" style={{ lineHeight: 1.6, maxWidth: 820, marginTop: 10, fontSize: 13 }}>
+            Seeded demo profiles for local review — not a live news wire. Claim statuses are
+            illustrative; verify sources on each profile before citing publicly.
+          </p>
 
-          <div style={{ marginTop: 18, position: 'relative' }}>
+          <div style={{ marginTop: 18, position: "relative" }}>
             <input
               className="input"
               placeholder="Search profiles, events, sources..."
@@ -103,12 +136,51 @@ export default function ExplorerPage() {
                 fontSize: 14,
                 color: '#666'
               }}>
-                Searching...
+              Searching...
               </div>
             )}
           </div>
 
-          {debouncedQuery && (
+          <div className="filter-grid" style={{ marginTop: 14 }}>
+            <select
+              aria-label="Filter by tag"
+              value={selectedTag}
+              onChange={(event) => setSelectedTag(event.target.value)}
+            >
+              <option value="all">All tags</option>
+              {tags.map((tag) => (
+                <option key={tag} value={tag}>
+                  {tag}
+                </option>
+              ))}
+            </select>
+            <select
+              aria-label="Filter by region"
+              value={selectedRegion}
+              onChange={(event) => setSelectedRegion(event.target.value)}
+            >
+              <option value="all">All regions</option>
+              {regions.map((region) => (
+                <option key={region} value={region}>
+                  {region}
+                </option>
+              ))}
+            </select>
+            <select
+              aria-label="Filter by claim status"
+              value={selectedStatus}
+              onChange={(event) => setSelectedStatus(event.target.value)}
+            >
+              <option value="all">All claim statuses</option>
+              {statuses.map((status) => (
+                <option key={status} value={status}>
+                  {status}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {hasActiveFilters && (
             <div style={{ marginTop: 12, fontSize: 14, color: '#666' }}>
               Found {filtered.length} {filtered.length === 1 ? 'result' : 'results'}
             </div>
@@ -123,7 +195,7 @@ export default function ExplorerPage() {
               <ProfileCard key={profile.slug} profile={profile} />
             ))}
           </div>
-        ) : debouncedQuery ? (
+        ) : hasActiveFilters ? (
           <div className="panel" style={{ padding: 40, textAlign: 'center' }}>
             <h3>No results found</h3>
             <p style={{ marginTop: 8 }}>
