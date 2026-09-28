@@ -578,7 +578,7 @@ export default async function HomePage() {
               <div className="kicker">Verification Methodology</div>
               <h2 className="section-title">How We Verify Information</h2>
               <p className="muted" style={{ lineHeight: 1.7, marginBottom: 24 }}>
-                BehindCurtain uses a rigorous multi-step process to ensure information quality:
+                BehindCurtain describes how a profile should be checked. The public site is not a live verification engine.
               </p>
               <div style={{ display: "grid", gap: 16, marginBottom: 24 }}>
                 <div style={{ display: "flex", gap: 12 }}>
@@ -606,17 +606,17 @@ export default async function HomePage() {
             </div>
             <div className="grid-2" style={{ gap: 16 }}>
               <div className="stat-card">
-                <div className="stat-number">3x</div>
-                <div className="stat-label">Minimum Sources</div>
+                <div className="stat-number">Method</div>
+                <div className="stat-label">Not a live count</div>
                 <div className="muted" style={{ fontSize: 12, marginTop: 4 }}>
-                  For verified facts
+                  The page describes the checks. It does not prove every fact has three sources.
                 </div>
               </div>
               <div className="stat-card">
-                <div className="stat-number">100%</div>
-                <div className="stat-label">Source-Linked</div>
+                <div className="stat-number">Linked</div>
+                <div className="stat-label">When a source is shown</div>
                 <div className="muted" style={{ fontSize: 12, marginTop: 4 }}>
-                  Every claim has evidence
+                  This site does not claim that every statement is already source-linked.
                 </div>
               </div>
             </div>
