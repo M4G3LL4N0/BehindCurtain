@@ -62,16 +62,9 @@ export default async function HomePage() {
                 enterKeyHint="search"
                 disabled
               />
-              <div style={{ 
-                position: 'absolute',
-                right: 16,
-                top: '50%',
-                transform: 'translateY(-50%)',
-                fontSize: 13,
-                color: 'var(--muted)'
-              }}>
-                Coming soon
-              </div>
+              <p className="muted" style={{ marginTop: 8, marginBottom: 0, fontSize: 13 }}>
+                Search is not live yet. The directory below is the working surface.
+              </p>
               <div className="search-dropdown">
                 {recentProfiles.length > 0 ? (
                   <>
