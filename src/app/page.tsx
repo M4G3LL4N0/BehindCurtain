@@ -56,14 +56,14 @@ export default async function HomePage() {
               <input 
                 type="search"
                 className="input"
-                placeholder="Search is off on this page"
+                placeholder="Filter lives in the explorer"
                 style={{ paddingLeft: 44 }}
-                aria-label="Search is off on this page"
+                aria-label="Open the explorer to filter profiles"
                 enterKeyHint="search"
                 disabled
               />
               <p className="muted" style={{ marginTop: 8, marginBottom: 0, fontSize: 13 }}>
-                This box does not search. The explorer filters a seeded sample directory. Those profiles are examples, not verified live records.
+                Open the explorer to filter the directory. <span>Demo data.</span>
               </p>
               <div className="search-dropdown">
                 {recentProfiles.length > 0 ? (
