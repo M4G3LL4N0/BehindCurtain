@@ -56,14 +56,14 @@ export default async function HomePage() {
               <input 
                 type="search"
                 className="input"
-                placeholder="Search verified profiles, sources, and events..."
+                placeholder="Search is off on this page"
                 style={{ paddingLeft: 44 }}
-                aria-label="Search verified profiles, sources, and events"
+                aria-label="Search is off on this page"
                 enterKeyHint="search"
                 disabled
               />
               <p className="muted" style={{ marginTop: 8, marginBottom: 0, fontSize: 13 }}>
-                Search is not live yet. The directory below is the working surface.
+                This box does not search. The explorer filters a seeded sample directory. Those profiles are examples, not verified live records.
               </p>
               <div className="search-dropdown">
                 {recentProfiles.length > 0 ? (
